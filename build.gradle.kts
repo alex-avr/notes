@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.7.21"
+    kotlin("jvm") apply false
 }
 
 group = "org.avr.notes"
@@ -16,14 +16,6 @@ allprojects {
 subprojects {
     group = rootProject.group
     version = rootProject.version
-    repositories {
-        mavenCentral()
-    }
-}
-
-dependencies {
-    implementation(kotlin("stdlib:1.8.0"))
-    testImplementation(kotlin("test-junit:1.8.0"))
 }
 
 
