@@ -542,11 +542,12 @@ components:
       description: Список дочерних объектов папки (заметки и папки)
       type: object
       properties:
-        items:
+        children:
           type: array
-          oneOf:
-            - $ref: '#/components/schemas/FolderResponseObject'
-            - $ref: '#/components/schemas/NoteResponseObject'
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/FolderResponseObject'
+              - $ref: '#/components/schemas/NoteResponseObject'
 
     FolderUpdateResponse:
       allOf:
