@@ -139,7 +139,6 @@ paths:
         '404':
           description: Заметок по указанной строке поиска не найдено
 
-  # todo: get notes by folder an other Folder related operations
   /v1/folders:
     post:
       tags:
