@@ -78,6 +78,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/NoteUpdateConflictResponse'
     get:
+      tags:
+        - notes
       summary: Получение заметки
       operationId: readNote
       parameters:
@@ -98,7 +100,9 @@ paths:
           description: Заметка с таким идентификатором не найдена
 
     delete:
-      summary: Удаление заметки с указанным идентификатором
+      tags:
+        - notes
+      summary: Удаление заметки
       operationId: deleteNode
       parameters:
         - name: noteId
@@ -119,6 +123,8 @@ paths:
 
   /v1/notes/search:
     get:
+      tags:
+        - notes
       summary: Поиск заметки по строке (в заголовке и тексте)
       operationId: search
       parameters:
@@ -204,6 +210,8 @@ paths:
                 $ref: '#/components/schemas/FolderUpdateConflictResponse'
 
     get:
+      tags:
+        - folders
       summary: Получение информации о папке
       operationId: getFolderInfo
       parameters:
@@ -224,7 +232,9 @@ paths:
           description: Папка с таким идентификатором не найдена
 
     delete:
-      summary: Удаление папки с указанным идентификатором
+      tags:
+        - folders
+      summary: Удаление папки
       operationId: deleteFolder
       parameters:
         - name: folderId
@@ -245,7 +255,9 @@ paths:
 
   /v1/folders/{folderId}/children:
     get:
-      summary: Получение одного уровня дочерних элементов папки (подпапки и заметки) с указанным идентификатором
+      tags:
+        - folders
+      summary: Получение одного уровня дочерних элементов папки (подпапки и заметки)
       operationId: getFolderChildren
       parameters:
         - name: folderId
