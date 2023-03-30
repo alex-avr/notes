@@ -1,0 +1,694 @@
+openapi: 3.0.4
+info:
+  title: Notes
+  description: A simple note taking app REST API
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/
+tags:
+  - name: notes
+    description: Создание и редактирование заметок
+  - name: folders
+    description: Управление папками для группировки заметок
+paths:
+  /v1/notes:
+    post:
+      tags:
+        - notes
+      summary: Создание новой заметки
+      operationId: createNote
+      requestBody:
+        description: данные для новой заметки
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NoteCreateRequest'
+        required: true
+      responses:
+        '201':
+          description: Заметка создана
+          headers:
+            Location:
+              schema:
+                type: string
+                description: URL, указаывающий на путь к созданной заметке
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoteCreateResponse'
+        '405':
+          description: Некорректный запрос на создание заметки
+
+  /v1/notes/{noteId}:
+    put:
+      tags:
+        - notes
+      summary: Обновление заметки
+      operationId: updateNote
+      parameters:
+        - name: noteId
+          in: path
+          description: идентификатор заметки
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: данные для обновления заметки
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NoteUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: Заметка обновлена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoteUpdateResponse'
+        '404':
+          description: Не найдена заметка с таким идентификатором
+        '409':
+          description: Обнаружен конфликт - попытка обновления заметки той же версии, но с разным содержимым
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoteUpdateConflictResponse'
+    get:
+      summary: Получение заметки
+      operationId: readNote
+      parameters:
+        - name: noteId
+          in: path
+          description: идентификатор заметки
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Данные заметки переданы на клиент
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoteGetResponse'
+        '404':
+          description: Заметка с таким идентификатором не найдена
+
+    delete:
+      summary: Удаление заметки с указанным идентификатором
+      operationId: deleteNode
+      parameters:
+        - name: noteId
+          in: path
+          description: идентификатор заметки
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Заметка успешно удалена
+        '404':
+          description: Заметка с таким идентификатором не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoteDeleteResponse'
+
+  /v1/notes/search:
+    get:
+      summary: Поиск заметки по строке (в заголовке и тексте)
+      operationId: search
+      parameters:
+        - name: searchString
+          in: query
+          description: строка для поиска
+          required: true
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Поиск заметок выполнен успешно
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoteResponseMulti'
+        '404':
+          description: Заметок по указанной строке поиска не найдено
+
+  # todo: get notes by folder an other Folder related operations
+  /v1/folders:
+    post:
+      tags:
+        - folders
+      summary: Создание новой папки
+      operationId: createFolder
+      requestBody:
+        description: данные для новой папки
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FolderCreateRequest'
+        required: true
+      responses:
+        '201':
+          description: Папка создана
+          headers:
+            Location:
+              schema:
+                type: string
+                description: URL, указаывающий на путь к созданной папке
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderCreateResponse'
+        '405':
+          description: Некорректный запрос на создание заметки
+
+  /v1/folders/{folderId}:
+    put:
+      tags:
+        - folders
+      summary: Обновление папки
+      operationId: updateFolder
+      parameters:
+        - name: folderId
+          in: path
+          description: идентификатор папки
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: данные для обновления папки
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FolderUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: Папка обновлена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderUpdateResponse'
+        '404':
+          description: Не найдена папка с таким идентификатором
+        '409':
+          description: Обнаружен конфликт - попытка обновления папки той же версии, но с разным содержимым
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderUpdateConflictResponse'
+
+    get:
+      summary: Получение информации о папке
+      operationId: getFolderInfo
+      parameters:
+        - name: folderId
+          in: path
+          description: идентификатор папки
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Данные с информацией о папке переданы на клиент
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderGetResponse'
+        '404':
+          description: Папка с таким идентификатором не найдена
+
+    delete:
+      summary: Удаление папки с указанным идентификатором
+      operationId: deleteFolder
+      parameters:
+        - name: folderId
+          in: path
+          description: идентификатор папки
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Папка успешно удалена
+        '404':
+          description: Папка с таким идентификатором не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderDeleteResponse'
+
+  /v1/folders/{folderId}/children:
+    get:
+      summary: Получение одного уровня дочерних элементов папки (подпапки и заметки) с указанным идентификатором
+      operationId: getFolderChildren
+      parameters:
+        - name: folderId
+          in: path
+          description: идентификатор папки
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Данные о дочерних элементах папки переданы на клиент
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderGetChildrenResponse'
+        '404':
+          description: Папка с таким идентификатором не найдена
+
+components:
+  schemas:
+
+    NoteId:
+      type: string
+      description: Идентификатор заметки
+
+    FolderId:
+      type: string
+      description: Идентификатор папки
+
+    NoteData:
+      type: object
+      description: общие данные для запросов создания и обновления заметки
+      properties:
+        title:
+          type: string
+          description: Заголовок заметки
+        body:
+          type: string
+          description: Текст заметки
+        createTime:
+          type: string
+          description: Дата и время создания заметки в формате ISO 8601
+        updateTime:
+          type: string
+          description: Дата и время обновления заметки в формате ISO 8601
+        version:
+          type: integer
+
+    FolderData:
+      type: object
+      description: общие данные для запросов создания и обновления папки
+      properties:
+        title:
+          type: string
+          description: Название папки
+        createTime:
+          type: string
+          description: Дата и время создания папки в формате ISO 8601
+        updateTime:
+          type: string
+          description: Дата и время обновления папки в формате ISO 8601
+        version:
+          type: integer
+
+    IFolderRequest:
+      type: object
+      description: Базовый интерфейс для всех запросов о папках
+      properties:
+        requestType:
+          type: string
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: create
+        requestId:
+          type: string
+          description: Идентификатор запроса для отладки
+      discriminator:
+        propertyName: requestType
+        mapping:
+          create: '#/components/schemas/FolderCreateRequest'
+          getChildren: '#/components/schemas/FolderGetChildrenRequest'
+          update: '#/components/schemas/FolderUpdateRequest'
+          delete: '#/components/schemas/FolderDeleteRequest'
+
+    FolderCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IFolderRequest'
+        - $ref: '#/components/schemas/RequestDebug'
+        - type: object
+          properties:
+            parentFolderId:
+              $ref: '#/components/schemas/FolderId'
+            folderData:
+              $ref: '#/components/schemas/FolderData'
+
+    FolderGetChildrenRequest:
+      allOf:
+        - $ref: '#/components/schemas/IFolderRequest'
+        - $ref: '#/components/schemas/RequestDebug'
+        - type: object
+          properties:
+            noteId:
+              $ref: '#/components/schemas/FolderId'
+
+    FolderUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IFolderRequest'
+        - $ref: '#/components/schemas/RequestDebug'
+        - type: object
+          properties:
+            folderId:
+              $ref: '#/components/schemas/FolderId'
+            noteData:
+              $ref: '#/components/schemas/FolderData'
+
+    FolderDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/IFolderRequest'
+        - $ref: '#/components/schemas/RequestDebug'
+        - type: object
+          properties:
+            noteId:
+              $ref: '#/components/schemas/FolderId'
+
+    INoteRequest:
+      type: object
+      description: Базовый интерфейс для всех запросов о заметках
+      properties:
+        requestType:
+          type: string
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: create
+        requestId:
+          type: string
+          description: Идентификатор запроса для отладки
+      discriminator:
+        propertyName: requestType
+        mapping:
+          create: '#/components/schemas/NoteCreateRequest'
+          read:   '#/components/schemas/NoteGetRequest'
+          update: '#/components/schemas/NoteUpdateRequest'
+          delete: '#/components/schemas/NoteDeleteRequest'
+          search: '#/components/schemas/NoteSearchRequest'
+
+    NoteCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/INoteRequest'
+        - $ref: '#/components/schemas/RequestDebug'
+        - type: object
+          properties:
+            parentFolderId:
+              $ref: '#/components/schemas/FolderId'
+            noteData:
+              $ref: '#/components/schemas/NoteData'
+
+    NoteGetRequest:
+      allOf:
+        - $ref: '#/components/schemas/INoteRequest'
+        - $ref: '#/components/schemas/RequestDebug'
+        - type: object
+          properties:
+            noteId:
+              $ref: '#/components/schemas/NoteId'
+
+    NoteUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/INoteRequest'
+        - $ref: '#/components/schemas/RequestDebug'
+        - type: object
+          properties:
+            noteId:
+              $ref: '#/components/schemas/NoteId'
+            parentFolderId:
+              $ref: '#/components/schemas/FolderId'
+            noteData:
+              $ref: '#/components/schemas/NoteData'
+
+    NoteDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/INoteRequest'
+        - $ref: '#/components/schemas/RequestDebug'
+        - type: object
+          properties:
+            noteId:
+              $ref: '#/components/schemas/NoteId'
+
+    NoteSearchFilter:
+      type: object
+      description: Набор фильтров для поиска
+      properties:
+        searchString:
+          type: string
+          description: Поисковая строка, которая будет искаться в заметках
+
+    NoteSearchRequest:
+      allOf:
+        - $ref: '#/components/schemas/INoteRequest'
+        - $ref: '#/components/schemas/RequestDebug'
+        - type: object
+          properties:
+            noteFilter:
+              $ref: '#/components/schemas/NoteSearchFilter'
+
+
+    Error:
+      type: object
+      description: информация об ошибке
+      properties:
+        code:
+          type: string
+          description: код типа ошибки
+        group:
+          type: string
+          description: код группы ошибки
+        field:
+          type: string
+          description: поле, содержащее некорректное значение
+        message:
+          type: string
+          description: текст сообщения об ошибке
+
+    ResponseResult:
+      description: тип результата
+      type: string
+      enum:
+        - success
+        - error
+
+    IFolderResponse:
+      type: object
+      description: Базовый интерфейс для всех ответов
+      properties:
+        responseType:
+          type: string
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: create
+        requestId:
+          type: string
+          description: Идентификатор запроса для отладки
+        result:
+          $ref: '#/components/schemas/ResponseResult'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+
+      discriminator:
+        propertyName: responseType
+        mapping:
+          create: '#/components/schemas/FolderCreateResponse'
+          read: '#/components/schemas/FolderGetResponse'
+          getChildren: '#/components/schemas/FolderGetChildrenResponse'
+          update: '#/components/schemas/FolderUpdateResponse'
+          updateConflict: '#/components/schemas/FolderUpdateConflictResponse'
+          delete: '#/components/schemas/FolderDeleteResponse'
+
+    FolderLinkInfo:
+      type: object
+      description: Краткая информация о папке
+      properties:
+        folderId:
+          $ref: '#/components/schemas/FolderId'
+        parentFolderId:
+          $ref: '#/components/schemas/FolderId'
+        version:
+          type: integer
+          description: Версия
+
+    FolderResponseObject:
+      allOf:
+        - $ref: '#/components/schemas/FolderData'
+        - $ref: '#/components/schemas/FolderLinkInfo'
+
+    FolderResponseSingle:
+      allOf:
+        - type: object
+          description: Ответ с одним объектом папки
+          properties:
+            notes:
+              $ref: '#/components/schemas/FolderResponseObject'
+
+    FolderChildrenResponseMulti:
+      description: Список дочерних объектов папки (заметки и папки)
+      type: object
+      properties:
+        items:
+          type: array
+          oneOf:
+            - $ref: '#/components/schemas/FolderResponseObject'
+            - $ref: '#/components/schemas/NoteResponseObject'
+
+    FolderUpdateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IFolderResponse'
+        - $ref: '#/components/schemas/FolderLinkInfo'
+
+    FolderUpdateConflictResponse:
+      allOf:
+        - $ref: '#/components/schemas/IFolderResponse'
+        - $ref: '#/components/schemas/FolderResponseSingle'
+
+    FolderDeleteResponse:
+      allOf:
+        - $ref: '#/components/schemas/IFolderResponse'
+
+    FolderCreateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IFolderResponse'
+        - $ref: '#/components/schemas/FolderLinkInfo'
+
+    FolderGetResponse:
+      allOf:
+        - $ref: '#/components/schemas/IFolderResponse'
+        - $ref: '#/components/schemas/FolderResponseSingle'
+
+    FolderGetChildrenResponse:
+      allOf:
+        - $ref: '#/components/schemas/INoteResponse'
+        - $ref: '#/components/schemas/FolderChildrenResponseMulti'
+
+    INoteResponse:
+      type: object
+      description: Базовый интерфейс для всех ответов
+      properties:
+        responseType:
+          type: string
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: create
+        requestId:
+          type: string
+          description: Идентификатор запроса для отладки
+        result:
+          $ref: '#/components/schemas/ResponseResult'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+
+      discriminator:
+        propertyName: responseType
+        mapping:
+          create: '#/components/schemas/NoteCreateResponse'
+          read: '#/components/schemas/NoteGetResponse'
+          update: '#/components/schemas/NoteUpdateResponse'
+          updateConflict: '#/components/schemas/NoteUpdateConflictResponse'
+          delete: '#/components/schemas/NoteDeleteResponse'
+          search: '#/components/schemas/NoteSearchResponse'
+
+    NoteLinkInfo:
+      type: object
+      description: Краткая информация о заметке
+      properties:
+        noteId:
+          $ref: '#/components/schemas/NoteId'
+        parentFolderId:
+          $ref: '#/components/schemas/FolderId'
+        version:
+          type: integer
+          description: Версия
+
+    NoteResponseObject:
+      allOf:
+        - $ref: '#/components/schemas/NoteData'
+        - $ref: '#/components/schemas/NoteLinkInfo'
+
+    NoteResponseSingle:
+      allOf:
+        - type: object
+          description: Ответ с одним объектом заметки
+          properties:
+            note:
+              $ref: '#/components/schemas/NoteResponseObject'
+
+    NoteResponseMulti:
+      allOf:
+        - type: object
+          description: Список найденных объектов
+          properties:
+            notes:
+              type: array
+              items:
+                $ref: '#/components/schemas/NoteResponseObject'
+
+    NoteCreateResponse:
+      allOf:
+        - $ref: '#/components/schemas/INoteResponse'
+        - $ref: '#/components/schemas/NoteLinkInfo'
+
+    NoteGetResponse:
+      allOf:
+        - $ref: '#/components/schemas/INoteResponse'
+        - $ref: '#/components/schemas/NoteResponseSingle'
+
+    NoteUpdateResponse:
+      allOf:
+        - $ref: '#/components/schemas/INoteResponse'
+        - $ref: '#/components/schemas/NoteLinkInfo'
+
+    NoteUpdateConflictResponse:
+      allOf:
+        - $ref: '#/components/schemas/INoteResponse'
+        - $ref: '#/components/schemas/NoteResponseSingle'
+
+    NoteDeleteResponse:
+      allOf:
+        - $ref: '#/components/schemas/INoteResponse'
+
+    NoteSearchResponse:
+      allOf:
+        - $ref: '#/components/schemas/INoteResponse'
+        - $ref: '#/components/schemas/NoteResponseMulti'
+
+
+    # STUBS ======================
+    RequestDebugMode:
+      type: string
+      enum:
+        - prod
+        - test
+        - stub
+
+    RequestDebug:
+      type: object
+      properties:
+        debug:
+          $ref: '#/components/schemas/DebugSettings'
+
+    DebugSettings:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/RequestDebugMode'
+        stub:
+          $ref: '#/components/schemas/RequestDebugStubs'
+
+    RequestDebugStubs:
+      type: string
+      description: Перечисления всех стабов
+      enum:
+        - success
+        - notFound
+        - badId
+        - badTitle
+        - badDescription
+        - cannotDelete
+        - badSearchString
