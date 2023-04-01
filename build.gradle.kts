@@ -26,6 +26,10 @@ subprojects {
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile> {
         kotlinOptions.jvmTarget = JVM_TARGET
     }
+    tasks.withType<JavaCompile> {
+        sourceCompatibility = JVM_TARGET
+        targetCompatibility = JVM_TARGET
+    }
 }
 
 
