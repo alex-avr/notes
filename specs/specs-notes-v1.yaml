@@ -303,8 +303,6 @@ components:
         updateTime:
           type: string
           description: Дата и время обновления заметки в формате ISO 8601
-        version:
-          type: integer
 
     FolderData:
       type: object
@@ -319,8 +317,6 @@ components:
         updateTime:
           type: string
           description: Дата и время обновления папки в формате ISO 8601
-        version:
-          type: integer
 
     IFolderRequest:
       type: object
@@ -513,7 +509,7 @@ components:
           updateConflict: '#/components/schemas/FolderUpdateConflictResponse'
           delete: '#/components/schemas/FolderDeleteResponse'
 
-    FolderLinkInfo:
+    FolderBriefInfo:
       type: object
       description: Краткая информация о папке
       properties:
@@ -528,7 +524,7 @@ components:
     FolderResponseObject:
       allOf:
         - $ref: '#/components/schemas/FolderData'
-        - $ref: '#/components/schemas/FolderLinkInfo'
+        - $ref: '#/components/schemas/FolderBriefInfo'
 
     FolderResponseSingle:
       allOf:
@@ -552,7 +548,7 @@ components:
     FolderUpdateResponse:
       allOf:
         - $ref: '#/components/schemas/IFolderResponse'
-        - $ref: '#/components/schemas/FolderLinkInfo'
+        - $ref: '#/components/schemas/FolderBriefInfo'
 
     FolderUpdateConflictResponse:
       allOf:
@@ -566,7 +562,7 @@ components:
     FolderCreateResponse:
       allOf:
         - $ref: '#/components/schemas/IFolderResponse'
-        - $ref: '#/components/schemas/FolderLinkInfo'
+        - $ref: '#/components/schemas/FolderBriefInfo'
 
     FolderGetResponse:
       allOf:
@@ -606,7 +602,7 @@ components:
           delete: '#/components/schemas/NoteDeleteResponse'
           search: '#/components/schemas/NoteSearchResponse'
 
-    NoteLinkInfo:
+    NoteBriefInfo:
       type: object
       description: Краткая информация о заметке
       properties:
@@ -621,7 +617,7 @@ components:
     NoteResponseObject:
       allOf:
         - $ref: '#/components/schemas/NoteData'
-        - $ref: '#/components/schemas/NoteLinkInfo'
+        - $ref: '#/components/schemas/NoteBriefInfo'
 
     NoteResponseSingle:
       allOf:
@@ -644,7 +640,7 @@ components:
     NoteCreateResponse:
       allOf:
         - $ref: '#/components/schemas/INoteResponse'
-        - $ref: '#/components/schemas/NoteLinkInfo'
+        - $ref: '#/components/schemas/NoteBriefInfo'
 
     NoteGetResponse:
       allOf:
@@ -654,7 +650,7 @@ components:
     NoteUpdateResponse:
       allOf:
         - $ref: '#/components/schemas/INoteResponse'
-        - $ref: '#/components/schemas/NoteLinkInfo'
+        - $ref: '#/components/schemas/NoteBriefInfo'
 
     NoteUpdateConflictResponse:
       allOf:
