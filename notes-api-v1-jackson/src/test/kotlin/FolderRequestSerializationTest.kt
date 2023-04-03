@@ -19,8 +19,7 @@ class FolderRequestSerializationTest {
         folderData = FolderData(
             title = "Root Folder",
             createTime = "2023-02-01T10:00",
-            updateTime = "2023-02-01T10:23",
-            version = null
+            updateTime = "2023-02-01T10:23"
         )
     )
 
