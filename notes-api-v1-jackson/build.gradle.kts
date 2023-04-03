@@ -17,6 +17,10 @@ sourceSets {
     }
 }
 
+openApiValidate {
+    inputSpec.set("$rootDir/specs/specs-notes-v1.yaml")
+}
+
 /**
  * Настраиваем генерацию здесь
  */
