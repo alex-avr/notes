@@ -333,6 +333,7 @@ components:
         propertyName: requestType
         mapping:
           create: '#/components/schemas/FolderCreateRequest'
+          getInfo: '#/components/schemas/FolderGetInfoRequest'
           getChildren: '#/components/schemas/FolderGetChildrenRequest'
           update: '#/components/schemas/FolderUpdateRequest'
           delete: '#/components/schemas/FolderDeleteRequest'
@@ -346,6 +347,17 @@ components:
             parentFolderId:
               $ref: '#/components/schemas/FolderId'
             folderData:
+              $ref: '#/components/schemas/FolderData'
+
+    FolderGetInfoRequest:
+      allOf:
+        - $ref: '#/components/schemas/IFolderRequest'
+        - $ref: '#/components/schemas/RequestDebug'
+        - type: object
+          properties:
+            folderId:
+              $ref: '#/components/schemas/FolderId'
+            noteData:
               $ref: '#/components/schemas/FolderData'
 
     FolderGetChildrenRequest:
@@ -363,9 +375,9 @@ components:
         - $ref: '#/components/schemas/RequestDebug'
         - type: object
           properties:
-            folderId:
-              $ref: '#/components/schemas/FolderId'
-            noteData:
+            folderInfo:
+                $ref: '#/components/schemas/FolderBriefInfo'
+            folderData:
               $ref: '#/components/schemas/FolderData'
 
     FolderDeleteRequest:
@@ -423,10 +435,8 @@ components:
         - $ref: '#/components/schemas/RequestDebug'
         - type: object
           properties:
-            noteId:
-              $ref: '#/components/schemas/NoteId'
-            parentFolderId:
-              $ref: '#/components/schemas/FolderId'
+            noteInfo:
+              $ref: '#/components/schemas/NoteBriefInfo'
             noteData:
               $ref: '#/components/schemas/NoteData'
 
@@ -696,7 +706,8 @@ components:
         - success
         - notFound
         - badId
-        - badTitle
-        - badDescription
+        - badNoteTitle
+        - badNoteBody
+        - badFolderName
         - cannotDelete
         - badSearchString
