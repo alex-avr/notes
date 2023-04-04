@@ -21,8 +21,7 @@ class NoteRequestSerializationTest {
             title = "Test title",
             body = "Some body",
             createTime = "2023-02-01T10:00",
-            updateTime = "2023-02-01T10:23",
-            1
+            updateTime = "2023-02-01T10:23"
         )
     )
 
