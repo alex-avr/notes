@@ -1,8 +1,6 @@
 
 rootProject.name = "notes"
 
-include("m1l1-quickstart")
-
 pluginManagement {
     val kotlinVersion: String by settings
     val kotestVersion: String by settings
@@ -32,4 +30,8 @@ pluginManagement {
         id("com.bmuschko.docker-remote-api") version bmuschkoVersion apply false
     }
 }
+
+include("m1l1-quickstart")
 include("notes-api-v1-jackson")
+include("notes-common")
+include("notes-mappers-v1")
