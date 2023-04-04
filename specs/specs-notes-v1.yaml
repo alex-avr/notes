@@ -354,7 +354,7 @@ components:
         - $ref: '#/components/schemas/RequestDebug'
         - type: object
           properties:
-            noteId:
+            folderId:
               $ref: '#/components/schemas/FolderId'
 
     FolderUpdateRequest:
@@ -374,7 +374,7 @@ components:
         - $ref: '#/components/schemas/RequestDebug'
         - type: object
           properties:
-            noteId:
+            folderId:
               $ref: '#/components/schemas/FolderId'
 
     INoteRequest:
