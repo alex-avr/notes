@@ -541,7 +541,7 @@ components:
         - type: object
           description: Ответ с одним объектом папки
           properties:
-            notes:
+            folderInfo:
               $ref: '#/components/schemas/FolderResponseObject'
 
     FolderChildrenResponseMulti:
@@ -581,7 +581,7 @@ components:
 
     FolderGetChildrenResponse:
       allOf:
-        - $ref: '#/components/schemas/INoteResponse'
+        - $ref: '#/components/schemas/IFolderResponse'
         - $ref: '#/components/schemas/FolderChildrenResponseMulti'
 
     INoteResponse:
