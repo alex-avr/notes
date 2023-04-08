@@ -18,7 +18,7 @@ enum class FolderChildType {
 /**
  * Интерфейс дочернего объекта для папки
  */
-interface IFolderChild {
+sealed interface IFolderChild {
     /**
      * Тип дочернего объекта папки. Сейчас может быть либо папка, либо заметка
      */
