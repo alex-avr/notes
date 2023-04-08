@@ -13,8 +13,7 @@ private fun folderRequestDataToInternal(idString: String?, parentFolderIdString:
     createTime = instantFromString(folderData?.createTime),
     updateTime = instantFromString(folderData?.updateTime),
     version = version ?: 1,
-    folderChildType = FolderChildType.FOLDER,
-    parent = null
+    folderChildType = FolderChildType.FOLDER
 )
 
 fun FolderContext.fromTransport(request: IFolderRequest) = when (request) {

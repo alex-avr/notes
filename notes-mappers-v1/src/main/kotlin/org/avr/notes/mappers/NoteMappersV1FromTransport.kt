@@ -14,8 +14,7 @@ private fun noteRequestDataToInternal(idString: String?, parentFolderIdString: S
     createTime = instantFromString(noteData?.createTime),
     updateTime = instantFromString(noteData?.updateTime),
     version = version ?: 1,
-    folderChildType = FolderChildType.NOTE,
-    parent = null
+    folderChildType = FolderChildType.NOTE
 )
 
 fun NoteContext.fromTransport(request: INoteRequest) = when (request) {

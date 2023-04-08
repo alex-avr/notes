@@ -16,8 +16,8 @@ data class NoteContext(
     var requestId: NotesRequestId = NotesRequestId.NONE,
     var processingStartTime: Instant = Instant.NONE,
 
-    var noteRequest: Note = Note(parent = null),
+    var noteRequest: Note = Note(),
     var noteSearchFilter: NoteSearchFilter,
-    var noteResponse: Note = Note(parent = null),
+    var noteResponse: Note = Note(),
     var noteMultiResponse: MutableList<Note> = mutableListOf()
 )

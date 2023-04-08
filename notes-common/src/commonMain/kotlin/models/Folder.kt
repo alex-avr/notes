@@ -12,6 +12,5 @@ data class Folder(
     var updateTime: Instant = Instant.NONE,
     var version: Int = 1,
     var children: MutableList<IFolderChild> = mutableListOf(),
-    override val folderChildType: FolderChildType = FolderChildType.FOLDER,
-    override val parent: IFolderChild?
+    override val folderChildType: FolderChildType = FolderChildType.FOLDER
 ) : IFolderChild

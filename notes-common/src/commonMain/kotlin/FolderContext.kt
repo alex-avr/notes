@@ -15,7 +15,7 @@ data class FolderContext(
     var requestId: NotesRequestId = NotesRequestId.NONE,
     var processingStartTime: Instant = Instant.NONE,
 
-    var folderRequest: Folder = Folder(parent = null),
-    var folderResponse: Folder = Folder(parent = null),
+    var folderRequest: Folder = Folder(),
+    var folderResponse: Folder = Folder(),
     var folderChildrenResponse: MutableList<IFolderChild> = mutableListOf(),
 )

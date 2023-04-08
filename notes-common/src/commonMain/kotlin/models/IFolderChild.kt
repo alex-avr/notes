@@ -23,10 +23,4 @@ sealed interface IFolderChild {
      * Тип дочернего объекта папки. Сейчас может быть либо папка, либо заметка
      */
     val folderChildType: FolderChildType
-
-    /**
-     * Cсылка на родительский объект (папку). Возвращает null, если родтеля нет (т.е. это папка верхнего уровня)
-     * @return
-     */
-    val parent: IFolderChild?
 }

@@ -13,6 +13,5 @@ data class Note(
     var createTime: Instant = Instant.NONE,
     var updateTime: Instant = Instant.NONE,
     var version: Int = 0,
-    override val folderChildType: FolderChildType = FolderChildType.NOTE,
-    override val parent: IFolderChild?
+    override val folderChildType: FolderChildType = FolderChildType.NOTE
 ) : IFolderChild
