@@ -1,10 +1,9 @@
-package org.avr.notes.common.models.note
+package org.avr.notes.common.models
 
 import kotlinx.datetime.Instant
 import org.avr.notes.common.NONE
-import org.avr.notes.common.models.FolderChild
-import org.avr.notes.common.models.FolderChildType
 import org.avr.notes.common.models.folder.FolderId
+import org.avr.notes.common.models.note.NoteId
 
 data class Note(
     var id: NoteId = NoteId.NONE,
@@ -13,5 +12,7 @@ data class Note(
     var body: String = "",
     var createTime: Instant = Instant.NONE,
     var updateTime: Instant = Instant.NONE,
-    var version: Int = 0
-) : FolderChild(FolderChildType.NOTE, null)
+    var version: Int = 0,
+    override val folderChildType: FolderChildType = FolderChildType.NOTE,
+    override val parent: IFolderChild?
+) : IFolderChild

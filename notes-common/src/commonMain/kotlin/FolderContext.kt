@@ -2,12 +2,10 @@ package org.avr.notes.common
 
 import kotlinx.datetime.Instant
 import org.avr.notes.common.models.*
-import org.avr.notes.common.models.folder.Folder
-import org.avr.notes.common.models.note.Note
-import org.avr.notes.common.models.note.NoteSearchFilter
+import org.avr.notes.common.models.folder.FolderCommand
 
-data class NotesContext(
-    var command: NotesCommand = NotesCommand.NONE,
+data class FolderContext(
+    var command: FolderCommand = FolderCommand.NONE,
     var state: NotesState = NotesState.NONE,
     var errors: MutableList<NotesError> = mutableListOf(),
 
@@ -17,12 +15,7 @@ data class NotesContext(
     var requestId: NotesRequestId = NotesRequestId.NONE,
     var processingStartTime: Instant = Instant.NONE,
 
-    var noteRequest: Note = Note(),
-    var noteSearchFilter: NoteSearchFilter,
-    var noteResponse: Note = Note(),
-    var noteMultiResponse: MutableList<Note> = mutableListOf(),
-
-    var folderRequest: Folder = Folder(),
-    var folderResponse: Folder = Folder(),
+    var folderRequest: Folder = Folder(parent = null),
+    var folderResponse: Folder = Folder(parent = null),
     var folderChildrenResponse: MutableList<IFolderChild> = mutableListOf(),
 )
