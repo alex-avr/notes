@@ -227,7 +227,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FolderGetResponse'
+                $ref: '#/components/schemas/FolderGetInfoResponse'
         '404':
           description: Папка с таким идентификатором не найдена
 
@@ -513,7 +513,7 @@ components:
         propertyName: responseType
         mapping:
           create: '#/components/schemas/FolderCreateResponse'
-          read: '#/components/schemas/FolderGetResponse'
+          read: '#/components/schemas/FolderGetInfoResponse'
           getChildren: '#/components/schemas/FolderGetChildrenResponse'
           update: '#/components/schemas/FolderUpdateResponse'
           updateConflict: '#/components/schemas/FolderUpdateConflictResponse'
@@ -574,7 +574,7 @@ components:
         - $ref: '#/components/schemas/IFolderResponse'
         - $ref: '#/components/schemas/FolderBriefInfo'
 
-    FolderGetResponse:
+    FolderGetInfoResponse:
       allOf:
         - $ref: '#/components/schemas/IFolderResponse'
         - $ref: '#/components/schemas/FolderResponseSingle'
@@ -703,6 +703,7 @@ components:
       type: string
       description: Перечисления всех стабов
       enum:
+        - none
         - success
         - notFound
         - badId
