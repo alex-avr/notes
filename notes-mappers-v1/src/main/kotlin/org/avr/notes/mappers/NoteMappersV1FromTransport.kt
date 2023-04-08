@@ -1,9 +1,10 @@
 package org.avr.notes.mappers
 
 import org.avr.notes.api.v1.models.*
-import org.avr.notes.common.NotesContext
-import org.avr.notes.common.models.NotesCommand
-import org.avr.notes.common.models.note.Note
+import org.avr.notes.common.NoteContext
+import org.avr.notes.common.models.FolderChildType
+import org.avr.notes.common.models.Note
+import org.avr.notes.common.models.note.NoteCommand
 
 private fun noteRequestDataToInternal(idString: String?, parentFolderIdString: String?, noteData: NoteData?, version: Int?): Note = Note(
     id = getNoteId(idString),
@@ -12,10 +13,12 @@ private fun noteRequestDataToInternal(idString: String?, parentFolderIdString: S
     body = noteData?.body ?: "",
     createTime = instantFromString(noteData?.createTime),
     updateTime = instantFromString(noteData?.updateTime),
-    version = version ?: 1
+    version = version ?: 1,
+    folderChildType = FolderChildType.NOTE,
+    parent = null
 )
 
-fun NotesContext.fromTransport(request: INoteRequest) = when (request) {
+fun NoteContext.fromTransport(request: INoteRequest) = when (request) {
     is NoteCreateRequest -> fromTransport(request)
     is NoteGetRequest -> fromTransport(request)
     is NoteUpdateRequest -> fromTransport(request)
@@ -24,8 +27,8 @@ fun NotesContext.fromTransport(request: INoteRequest) = when (request) {
     else -> throw UnknownRequestException(request.javaClass)
 }
 
-private fun NotesContext.fromTransport(request: NoteCreateRequest) {
-    command = NotesCommand.CREATE_NOTE
+private fun NoteContext.fromTransport(request: NoteCreateRequest) {
+    command = NoteCommand.CREATE_NOTE
     requestId = getRequestId(request)
 
     workMode = request.debug.transportToWorkMode()
@@ -34,8 +37,8 @@ private fun NotesContext.fromTransport(request: NoteCreateRequest) {
     noteRequest = noteRequestDataToInternal(null, request.parentFolderId, request.noteData, null)
 }
 
-private fun NotesContext.fromTransport(request: NoteGetRequest) {
-    command = NotesCommand.READ_NOTE
+private fun NoteContext.fromTransport(request: NoteGetRequest) {
+    command = NoteCommand.READ_NOTE
     requestId = getRequestId(request)
 
     workMode = request.debug.transportToWorkMode()
@@ -44,8 +47,8 @@ private fun NotesContext.fromTransport(request: NoteGetRequest) {
     noteRequest = noteRequestDataToInternal(request.noteId, null, null, null)
 }
 
-private fun NotesContext.fromTransport(request: NoteUpdateRequest) {
-    command = NotesCommand.UPDATE_NOTE
+private fun NoteContext.fromTransport(request: NoteUpdateRequest) {
+    command = NoteCommand.UPDATE_NOTE
     requestId = getRequestId(request)
 
     workMode = request.debug.transportToWorkMode()
@@ -54,8 +57,8 @@ private fun NotesContext.fromTransport(request: NoteUpdateRequest) {
     noteRequest = noteRequestDataToInternal(request.noteInfo?.noteId, request.noteInfo?.parentFolderId, request.noteData, request.noteInfo?.version)
 }
 
-private fun NotesContext.fromTransport(request: NoteSearchRequest) {
-    command = NotesCommand.SEARCH_NOTE
+private fun NoteContext.fromTransport(request: NoteSearchRequest) {
+    command = NoteCommand.SEARCH_NOTE
     requestId = getRequestId(request)
 
     workMode = request.debug.transportToWorkMode()
@@ -63,8 +66,8 @@ private fun NotesContext.fromTransport(request: NoteSearchRequest) {
 
     noteSearchFilter = noteSearchFilterFromTransport(request.noteFilter)
 }
-private fun NotesContext.fromTransport(request: NoteDeleteRequest) {
-    command = NotesCommand.READ_NOTE
+private fun NoteContext.fromTransport(request: NoteDeleteRequest) {
+    command = NoteCommand.READ_NOTE
     requestId = getRequestId(request)
 
     workMode = request.debug.transportToWorkMode()
