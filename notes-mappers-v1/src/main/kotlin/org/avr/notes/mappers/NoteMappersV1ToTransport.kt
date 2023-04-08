@@ -32,7 +32,7 @@ private fun Note.toTransport(): NoteResponseObject = NoteResponseObject(
 
 private fun NoteContext.toTransportCreate() = NoteCreateResponse(
     responseType = "create",
-    requestId = this.requestId.asString().takeIf { it.isBlank() },
+    requestId = this.requestId.asString().takeIf { it.isNotBlank() },
     result = responseResultFromState(this.state),
     errors = this.errors.toTransportErrors(),
     noteId = noteResponse.id.asString(),
@@ -41,7 +41,7 @@ private fun NoteContext.toTransportCreate() = NoteCreateResponse(
 )
 private fun NoteContext.toTransportRead(): INoteResponse = NoteGetResponse(
     responseType = "read",
-    requestId = this.requestId.asString().takeIf { it.isBlank() },
+    requestId = this.requestId.asString().takeIf { it.isNotBlank() },
     result = responseResultFromState(this.state),
     errors = this.errors.toTransportErrors(),
     note = this.noteResponse.toTransport()
@@ -49,7 +49,7 @@ private fun NoteContext.toTransportRead(): INoteResponse = NoteGetResponse(
 
 private fun NoteContext.toTransportUpdate(): INoteResponse = NoteUpdateResponse(
     responseType = "update",
-    requestId = this.requestId.asString().takeIf { it.isBlank() },
+    requestId = this.requestId.asString().takeIf { it.isNotBlank() },
     result = responseResultFromState(this.state),
     errors = this.errors.toTransportErrors(),
     noteId = this.noteResponse.id.asString(),
@@ -59,7 +59,7 @@ private fun NoteContext.toTransportUpdate(): INoteResponse = NoteUpdateResponse(
 
 private fun NoteContext.toTransportUpdateConflict(): INoteResponse = NoteUpdateConflictResponse(
     responseType = "updateConflict",
-    requestId = this.requestId.asString().takeIf { it.isBlank() },
+    requestId = this.requestId.asString().takeIf { it.isNotBlank() },
     result = responseResultFromState(this.state),
     errors = this.errors.toTransportErrors(),
     note = this.noteResponse.toTransport()
@@ -67,14 +67,14 @@ private fun NoteContext.toTransportUpdateConflict(): INoteResponse = NoteUpdateC
 
 private fun NoteContext.toTransportDelete(): INoteResponse = NoteDeleteResponse(
     responseType = "delete",
-    requestId = this.requestId.asString().takeIf { it.isBlank() },
+    requestId = this.requestId.asString().takeIf { it.isNotBlank() },
     result = responseResultFromState(this.state),
     errors = this.errors.toTransportErrors()
 )
 
 private fun NoteContext.toTransportSearch(): INoteResponse = NoteSearchResponse(
     responseType = "search",
-    requestId = this.requestId.asString().takeIf { it.isBlank() },
+    requestId = this.requestId.asString().takeIf { it.isNotBlank() },
     result = responseResultFromState(this.state),
     errors = this.errors.toTransportErrors(),
     notes = noteSearchResultToTransport(this.noteMultiResponse)

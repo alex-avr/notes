@@ -32,16 +32,16 @@ fun FolderContext.toTransport(): IFolderResponse = when(command) {
 
 private fun FolderContext.toTransportCreate(): IFolderResponse = FolderCreateResponse(
     responseType = "create",
-    requestId = this.requestId.asString().takeIf { it.isBlank() },
+    requestId = this.requestId.asString().takeIf { it.isNotBlank() },
     result = responseResultFromState(this.state),
     errors = this.errors.toTransportErrors(),
     folderId = folderResponse.id.asString(),
     parentFolderId = folderResponse.parentFolderId?.asString() ?: "",
     version = folderResponse.version
 )
-private fun FolderContext.toTransportRead(): IFolderResponse = FolderGetResponse(
+private fun FolderContext.toTransportRead(): IFolderResponse = FolderGetInfoResponse(
     responseType = "read",
-    requestId = this.requestId.asString().takeIf { it.isBlank() },
+    requestId = this.requestId.asString().takeIf { it.isNotBlank() },
     result = responseResultFromState(this.state),
     errors = this.errors.toTransportErrors(),
     folderInfo = folderResponse.toTransport()
@@ -49,7 +49,7 @@ private fun FolderContext.toTransportRead(): IFolderResponse = FolderGetResponse
 
 private fun FolderContext.toTransportUpdate(): IFolderResponse = FolderUpdateResponse(
     responseType = "update",
-    requestId = this.requestId.asString().takeIf { it.isBlank() },
+    requestId = this.requestId.asString().takeIf { it.isNotBlank() },
     result = responseResultFromState(this.state),
     errors = this.errors.toTransportErrors(),
     folderId = folderResponse.id.asString(),
@@ -59,7 +59,7 @@ private fun FolderContext.toTransportUpdate(): IFolderResponse = FolderUpdateRes
 
 private fun FolderContext.toTransportUpdateConflict(): IFolderResponse = FolderUpdateConflictResponse(
     responseType = "updateConflict",
-    requestId = this.requestId.asString().takeIf { it.isBlank() },
+    requestId = this.requestId.asString().takeIf { it.isNotBlank() },
     result = responseResultFromState(this.state),
     errors = this.errors.toTransportErrors(),
     folderInfo = folderResponse.toTransport()
@@ -91,7 +91,7 @@ private fun FolderContext.folderChildrenToTransport(folderChildrenList: MutableL
 
 private fun FolderContext.toTransportGetChildren(): IFolderResponse = FolderGetChildrenResponse(
     responseType = "getChildren",
-    requestId = this.requestId.asString().takeIf { it.isBlank() },
+    requestId = this.requestId.asString().takeIf { it.isNotBlank() },
     result = responseResultFromState(this.state),
     errors = this.errors.toTransportErrors(),
     children = folderChildrenToTransport(folderChildrenResponse)
@@ -99,7 +99,7 @@ private fun FolderContext.toTransportGetChildren(): IFolderResponse = FolderGetC
 
 private fun FolderContext.toTransportDelete(): IFolderResponse = FolderDeleteResponse(
     responseType = "delete",
-    requestId = this.requestId.asString().takeIf { it.isBlank() },
+    requestId = this.requestId.asString().takeIf { it.isNotBlank() },
     result = responseResultFromState(this.state),
     errors = this.errors.toTransportErrors()
 )
