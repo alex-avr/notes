@@ -1,4 +1,4 @@
-package org.avr.notes.common.models
+package org.avr.notes.common.stubs
 
 enum class NotesStubs {
     NONE,

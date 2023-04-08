@@ -4,10 +4,10 @@ import kotlinx.datetime.Instant
 import org.avr.notes.api.v1.models.*
 import org.avr.notes.common.NONE
 import org.avr.notes.common.models.NotesRequestId
-import org.avr.notes.common.models.NotesStubs
 import org.avr.notes.common.models.NotesWorkMode
 import org.avr.notes.common.models.folder.FolderId
 import org.avr.notes.common.models.note.NoteId
+import org.avr.notes.common.stubs.NotesStubs
 
 fun getRequestId(request: IFolderRequest): NotesRequestId {
     return request.requestId?.let { NotesRequestId(it) } ?: NotesRequestId.NONE
@@ -38,6 +38,7 @@ fun DebugSettings?.transportToWorkMode() = when (this?.mode) {
 }
 
 fun DebugSettings?.transportToStubCase() = when (this?.stub) {
+    RequestDebugStubs.NONE -> NotesStubs.NONE
     RequestDebugStubs.SUCCESS -> NotesStubs.SUCCESS
     RequestDebugStubs.NOT_FOUND -> NotesStubs.NOT_FOUND
     RequestDebugStubs.BAD_ID -> NotesStubs.BAD_ID
