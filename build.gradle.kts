@@ -1,6 +1,9 @@
 plugins {
+    kotlin("multiplatform") apply false
     kotlin("jvm") apply false
 }
+
+val JVM_TARGET = "11"
 
 group = "org.avr.notes"
 version = "0.0.1"
@@ -16,6 +19,17 @@ allprojects {
 subprojects {
     group = rootProject.group
     version = rootProject.version
+
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions.jvmTarget = JVM_TARGET
+    }
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile> {
+        kotlinOptions.jvmTarget = JVM_TARGET
+    }
+    tasks.withType<JavaCompile> {
+        sourceCompatibility = JVM_TARGET
+        targetCompatibility = JVM_TARGET
+    }
 }
 
 
