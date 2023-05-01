@@ -17,7 +17,9 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-common"))
-                implementation("io.arrow-kt:arrow-core:$arrowVersion")
+                //implementation("io.arrow-kt:arrow-core:$arrowVersion")
+
+                api(project(":notes-lib-logging-common"))
 
                 api("org.jetbrains.kotlinx:kotlinx-datetime:$datetimeVersion")
             }
