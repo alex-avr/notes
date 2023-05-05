@@ -29,7 +29,7 @@ class NoteMappersTest {
         )
 
         val context = NoteContext()
-        context.fromTransport(request)
+        context.fromRequestData(request)
 
         assertEquals(NoteCommand.CREATE_NOTE, context.command)
         assertEquals(NotesState.NONE, context.state)

@@ -1,4 +1,4 @@
-package org.avr.notes.api.v1
+package org.avr.notes.app.v1
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper

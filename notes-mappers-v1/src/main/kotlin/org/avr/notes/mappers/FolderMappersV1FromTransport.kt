@@ -1,9 +1,15 @@
 package org.avr.notes.mappers
 
-import org.avr.notes.api.v1.models.*
+import org.avr.notes.api.v1.models.FolderCreateRequest
+import org.avr.notes.api.v1.models.FolderData
+import org.avr.notes.api.v1.models.FolderUpdateRequest
+import org.avr.notes.api.v1.models.IFolderRequest
+import org.avr.notes.api.v1.org.avr.notes.app.v1.RequestDebugParameters
+import org.avr.notes.app.v1.FolderRequestParameters
 import org.avr.notes.common.FolderContext
 import org.avr.notes.common.models.Folder
 import org.avr.notes.common.models.FolderChildType
+import org.avr.notes.common.models.NotesRequestId
 import org.avr.notes.common.models.folder.FolderCommand
 
 private fun folderRequestDataToInternal(idString: String?, parentFolderIdString: String?, folderData: FolderData?, version: Int?): Folder = Folder(
@@ -16,60 +22,48 @@ private fun folderRequestDataToInternal(idString: String?, parentFolderIdString:
     folderChildType = FolderChildType.FOLDER
 )
 
-fun FolderContext.fromTransport(request: IFolderRequest) = when (request) {
-    is FolderCreateRequest -> fromTransport(request)
-    is FolderUpdateRequest -> fromTransport(request)
-    is FolderGetInfoRequest -> fromTransport(request)
-    is FolderGetChildrenRequest -> fromTransport(request)
-    is FolderDeleteRequest -> fromTransport(request)
-    else -> throw UnknownRequestException(request.javaClass)
+fun FolderContext.fromRequestData(folderCommand: FolderCommand, debugParameters: RequestDebugParameters, requestParameters: FolderRequestParameters, requestBody: IFolderRequest?) {
+    requestId = NotesRequestId(debugParameters.requestId)
+    workMode = debugParameters.workMode.transportToWorkMode()
+    stubCase = debugParameters.stubType.transportToStubCase()
+
+    command = folderCommand
+
+    when (folderCommand) {
+        FolderCommand.CREATE_FOLDER -> fromFolderCreateRequestData(requestBody as FolderCreateRequest)
+        FolderCommand.UPDATE_FOLDER -> fromFolderUpdateRequestData(requestParameters, requestBody as FolderUpdateRequest)
+        FolderCommand.DELETE_FOLDER -> fromFolderDeleteRequestData(requestParameters)
+        FolderCommand.GET_FOLDER_CHILDREN -> fromFolderGetChildrenRequestData(requestParameters)
+        FolderCommand.GET_FOLDER_INFO -> fromFolderGetInfoRequestData(requestParameters)
+        else -> throw UnknownFolderCommandException(command)
+    }
 }
-private fun FolderContext.fromTransport(request: FolderCreateRequest) {
-    command = FolderCommand.CREATE_FOLDER
-    requestId = getRequestId(request)
-
-    workMode = request.debug.transportToWorkMode()
-    stubCase = request.debug.transportToStubCase()
-
+private fun FolderContext.fromFolderCreateRequestData(request: FolderCreateRequest) {
     folderRequest = folderRequestDataToInternal(null, request.parentFolderId, request.folderData, null)
 }
 
-private fun FolderContext.fromTransport(request: FolderUpdateRequest) {
-    command = FolderCommand.UPDATE_FOLDER
-    requestId = getRequestId(request)
+private fun FolderContext.fromFolderUpdateRequestData(requestParameters: FolderRequestParameters, request: FolderUpdateRequest) {
+    val folderId = requestParameters.folderId ?: throw MissingRequestParameterException("folderId")
 
-    workMode = request.debug.transportToWorkMode()
-    stubCase = request.debug.transportToStubCase()
-
-    folderRequest = folderRequestDataToInternal(request.folderInfo?.folderId, request.folderInfo?.parentFolderId, request.folderData, request.folderInfo?.version)
+    folderRequest = folderRequestDataToInternal(folderId, request.folderInfo?.parentFolderId, request.folderData, request.folderInfo?.version)
 }
 
-private fun FolderContext.fromTransport(request: FolderGetInfoRequest) {
-    command = FolderCommand.GET_FOLDER_INFO
-    requestId = getRequestId(request)
+private fun FolderContext.fromFolderDeleteRequestData(requestParameters: FolderRequestParameters) {
+    val folderId = requestParameters.folderId ?: throw MissingRequestParameterException("folderId")
 
-    workMode = request.debug.transportToWorkMode()
-    stubCase = request.debug.transportToStubCase()
-
-    folderRequest = folderRequestDataToInternal(request.folderId, null, null, null)
+    folderRequest = folderRequestDataToInternal(folderId, null, null, null)
 }
 
-private fun FolderContext.fromTransport(request: FolderGetChildrenRequest) {
-    command = FolderCommand.GET_FOLDER_CHILDREN
-    requestId = getRequestId(request)
+private fun FolderContext.fromFolderGetChildrenRequestData(requestParameters: FolderRequestParameters) {
+    val folderId = requestParameters.folderId ?: throw MissingRequestParameterException("folderId")
 
-    workMode = request.debug.transportToWorkMode()
-    stubCase = request.debug.transportToStubCase()
+    folderRequest = folderRequestDataToInternal(folderId, null, null, null)
+}
+private fun FolderContext.fromFolderGetInfoRequestData(requestParameters: FolderRequestParameters) {
+    val folderId = requestParameters.folderId ?: throw MissingRequestParameterException("folderId")
 
-    folderRequest = folderRequestDataToInternal(request.folderId, null, null, null)
+    folderRequest = folderRequestDataToInternal(folderId, null, null, null)
 }
 
-private fun FolderContext.fromTransport(request: FolderDeleteRequest) {
-    command = FolderCommand.DELETE_FOLDER
-    requestId = getRequestId(request)
 
-    workMode = request.debug.transportToWorkMode()
-    stubCase = request.debug.transportToStubCase()
 
-    folderRequest = folderRequestDataToInternal(request.folderId, null, null, null)
-}

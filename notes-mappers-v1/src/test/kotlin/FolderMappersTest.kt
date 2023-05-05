@@ -28,7 +28,7 @@ class FolderMappersTest {
         )
 
         val context = FolderContext()
-        context.fromTransport(request)
+        context.fromRequestData(request)
 
         assertEquals(FolderCommand.CREATE_FOLDER, context.command)
         assertEquals(NotesState.NONE, context.state)

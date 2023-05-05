@@ -1,6 +1,9 @@
 package org.avr.notes.api.v1
 
-import org.avr.notes.api.v1.models.*
+import org.avr.notes.api.v1.models.FolderCreateRequest
+import org.avr.notes.api.v1.models.FolderData
+import org.avr.notes.api.v1.models.IFolderRequest
+import org.avr.notes.app.v1.apiV1Mapper
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
@@ -12,9 +15,6 @@ class FolderRequestSerializationTest {
     private val createFolderRequest = FolderCreateRequest(
         requestType = "create",
         requestId = "1341",
-        debug = DebugSettings(
-            mode = RequestDebugMode.STUB,
-            stub = RequestDebugStubs.SUCCESS),
         parentFolderId = null,
         folderData = FolderData(
             title = "Root Folder",
@@ -28,8 +28,6 @@ class FolderRequestSerializationTest {
         val json = apiV1Mapper.writeValueAsString(createFolderRequest)
 
         assertContains(json, Regex("\"title\":\\s*\"Root Folder\""))
-        assertContains(json, Regex("\"mode\":\\s*\"stub\""))
-        assertContains(json, Regex("\"stub\":\\s*\"success\""))
         assertContains(json, Regex("\"requestType\":\\s*\"create\""))
     }
 
