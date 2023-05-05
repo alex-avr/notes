@@ -7,50 +7,53 @@ import org.avr.notes.app.common.NotesAppSettings
 
 fun Route.v1Folders(appSettings: NotesAppSettings) {
     val loggerFolders = appSettings.corSettings.loggerProvider.logger(Route::v1Folders::class)
+    val folderController = FolderController(appSettings, loggerFolders)
+
     route("folders") {
         post {
-            createFolder(call, appSettings, loggerFolders)
+            folderController.createFolder(call)
         }
 
         put("/{folderId}") {
-            updateFolder(call, appSettings, loggerFolders)
+            folderController.updateFolder(call)
         }
 
         get("/{folderId}") {
-            getFolderInfo(call, appSettings, loggerFolders)
+            folderController.getFolderInfo(call)
         }
 
         delete("/{folderId}") {
-            deleteFolder(call, appSettings, loggerFolders)
+            folderController.deleteFolder(call)
         }
 
         get("/{folderId}/children") {
-            getFolderChildren(call, appSettings, loggerFolders)
+            folderController.getFolderChildren(call)
         }
     }
 }
 
 fun Route.v1Notes(appSettings: NotesAppSettings) {
     val loggerNotes = appSettings.corSettings.loggerProvider.logger(Route::v1Notes::class)
+    val noteController = NoteController(appSettings, loggerNotes)
     route("notes") {
         post {
-            createNote(call, appSettings, loggerNotes)
+            noteController.createNote(call)
         }
 
         put("/{noteId}") {
-            updateNote(call, appSettings, loggerNotes)
+            noteController.updateNote(call)
         }
 
         get("/{noteId}") {
-            updateNote(call, appSettings, loggerNotes)
+            noteController.updateNote(call)
         }
 
         delete("/{noteId}") {
-            updateNote(call, appSettings, loggerNotes)
+            noteController.updateNote(call)
         }
 
         get("/search") {
-            searchNotes(call, appSettings, loggerNotes)
+            noteController.searchNotes(call)
         }
     }
 }

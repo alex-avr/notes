@@ -7,10 +7,10 @@ import io.ktor.server.plugins.callloging.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.defaultheaders.*
 import io.ktor.server.routing.*
-import org.avr.notes.api.v1.apiV1Mapper
 import org.avr.notes.app.common.NotesAppSettings
 import org.avr.notes.app.common.plugins.initAppSettings
 import org.avr.notes.app.common.plugins.swagger
+import org.avr.notes.app.v1.apiV1Mapper
 import org.avr.notes.app.v1.v1Folders
 import org.avr.notes.app.v1.v1Notes
 import org.avr.notes.logging.jvm.NotesLogWrapperLogback
