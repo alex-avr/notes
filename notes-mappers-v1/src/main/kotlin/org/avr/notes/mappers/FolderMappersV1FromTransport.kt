@@ -4,8 +4,8 @@ import org.avr.notes.api.v1.models.FolderCreateRequest
 import org.avr.notes.api.v1.models.FolderData
 import org.avr.notes.api.v1.models.FolderUpdateRequest
 import org.avr.notes.api.v1.models.IFolderRequest
-import org.avr.notes.api.v1.org.avr.notes.app.v1.RequestDebugParameters
 import org.avr.notes.app.v1.FolderRequestParameters
+import org.avr.notes.app.v1.RequestDebugParameters
 import org.avr.notes.common.FolderContext
 import org.avr.notes.common.models.Folder
 import org.avr.notes.common.models.FolderChildType
