@@ -1,10 +1,12 @@
 package org.avr.notes.app
 
+import io.ktor.http.*
 import io.ktor.serialization.jackson.*
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
 import io.ktor.server.plugins.callloging.*
 import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.plugins.defaultheaders.*
 import io.ktor.server.routing.*
 import org.avr.notes.app.common.NotesAppSettings
@@ -37,6 +39,22 @@ fun Application.moduleJvm(appSettings: NotesAppSettings = initAppSettings()) {
         }
     }
     install(DefaultHeaders)
+
+    install(CORS) {
+        allowHeader(HttpHeaders.ContentType)
+        allowHeader(HttpHeaders.Authorization)
+        allowHeader("X-Request-Id")
+        allowHeader("X-Work-Mode")
+        allowHeader("X-Stub-Type")
+        exposeHeader("X-Request-Id")
+        exposeHeader("X-Work-Mode")
+        exposeHeader("X-Stub-Type")
+
+        allowMethod(HttpMethod.Get)
+        allowMethod(HttpMethod.Put)
+        allowMethod(HttpMethod.Post)
+        allowMethod(HttpMethod.Delete)
+    }
 
     routing {
         route("v1") {
