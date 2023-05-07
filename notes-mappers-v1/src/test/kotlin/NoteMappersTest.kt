@@ -2,6 +2,8 @@ package org.avr.notes.mappers
 
 import kotlinx.datetime.Instant
 import org.avr.notes.api.v1.models.*
+import org.avr.notes.app.v1.NoteRequestParameters
+import org.avr.notes.app.v1.RequestDebugParameters
 import org.avr.notes.common.NoteContext
 import org.avr.notes.common.models.Note
 import org.avr.notes.common.models.NotesRequestId
@@ -17,19 +19,20 @@ import kotlin.test.assertEquals
 class NoteMappersTest {
     @Test
     fun testCreateNoteFromTransport() {
-        val request = NoteCreateRequest(
+        val requestBody = NoteCreateRequest(
             requestType = "create",
             requestId = "test_id",
-            debug = DebugSettings(
-                mode = RequestDebugMode.STUB,
-                stub = RequestDebugStubs.SUCCESS
-            ),
-            parentFolderId = null,
+           parentFolderId = null,
             noteData = NoteData("new_note_title", "Test body", "2023-04-03T10:00:00Z", "2023-04-04T12:00:00Z")
         )
 
         val context = NoteContext()
-        context.fromRequestData(request)
+        val noteCommand = NoteCommand.CREATE_NOTE
+        val debugParameters = RequestDebugParameters(requestId = "test_id",
+            workMode = RequestWorkMode.STUB,
+            stubType = RequestStubType.SUCCESS)
+        val requestParameters = NoteRequestParameters(noteId = null, parentFolderId = null)
+        context.fromRequestData(noteCommand, debugParameters, requestParameters, requestBody)
 
         assertEquals(NoteCommand.CREATE_NOTE, context.command)
         assertEquals(NotesState.NONE, context.state)
