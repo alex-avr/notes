@@ -17,6 +17,9 @@ import org.avr.notes.logging.jvm.NotesLogWrapperLogback
 import org.slf4j.event.Level
 
 private val clazz = Application::moduleJvm::class.qualifiedName ?: "Application"
+
+fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
+
 @Suppress("unused") // Referenced in application.conf_
 fun Application.moduleJvm(appSettings: NotesAppSettings = initAppSettings()) {
     install(CallLogging) {

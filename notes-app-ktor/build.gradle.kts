@@ -24,7 +24,7 @@ dependencies {
 }
 
 application {
-    mainClass.set("io.ktor.server.cio.EngineMain")
+    mainClass.set("org.avr.notes.app.ApplicationJvmKt")
 }
 
 ktor {
@@ -36,7 +36,7 @@ ktor {
 }
 
 kotlin {
-    jvm {}
+    jvm { withJava() }
 
     sourceSets {
         @Suppress("UNUSED_VARIABLE")

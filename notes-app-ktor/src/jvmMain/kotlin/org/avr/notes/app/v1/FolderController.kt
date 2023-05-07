@@ -83,7 +83,7 @@ class FolderController(
             }
         } catch (e: Throwable) {
             logger.doWithLogging(id = "${logId}_failure") {
-                command?.also { ctx.command = it }
+                command.also { ctx.command = it }
                 logger.error(
                     msg = "$command handling failed",
                 )
