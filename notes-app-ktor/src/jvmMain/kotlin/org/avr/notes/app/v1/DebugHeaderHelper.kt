@@ -3,7 +3,6 @@ package org.avr.notes.app.v1
 import io.ktor.server.application.*
 import org.avr.notes.api.v1.models.RequestStubType
 import org.avr.notes.api.v1.models.RequestWorkMode
-import org.avr.notes.api.v1.org.avr.notes.app.v1.RequestDebugParameters
 import org.avr.notes.mappers.MissingRequiredRequestHeader
 
 /**
