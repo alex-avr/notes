@@ -111,6 +111,8 @@ kotlin {
         @Suppress("UNUSED_VARIABLE")
         val jvmTest by getting {
             dependencies {
+                implementation(ktorServer("test-host")) // "io.ktor:ktor-server-test-host:$ktorVersion"
+                implementation(ktorClient("content-negotiation"))
                 implementation(kotlin("test-junit"))
             }
         }
