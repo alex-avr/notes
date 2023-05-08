@@ -7,7 +7,6 @@ import io.ktor.server.http.content.*
 import io.ktor.server.plugins.callloging.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.cors.routing.*
-import io.ktor.server.plugins.defaultheaders.*
 import io.ktor.server.routing.*
 import org.avr.notes.app.common.NotesAppSettings
 import org.avr.notes.app.common.plugins.initAppSettings
@@ -38,7 +37,6 @@ fun Application.moduleJvm(appSettings: NotesAppSettings = initAppSettings()) {
             setConfig(apiV1Mapper.deserializationConfig)
         }
     }
-    install(DefaultHeaders)
 
     install(CORS) {
         allowHeader(HttpHeaders.ContentType)

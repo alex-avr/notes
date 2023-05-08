@@ -45,11 +45,11 @@ fun Route.v1Notes(appSettings: NotesAppSettings) {
         }
 
         get("/{noteId}") {
-            noteController.updateNote(call)
+            noteController.readNote(call)
         }
 
         delete("/{noteId}") {
-            noteController.updateNote(call)
+            noteController.deleteNote(call)
         }
 
         get("/search") {

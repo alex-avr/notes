@@ -18,4 +18,4 @@ fun List<NotesError>.toTransportErrors(): List<Error>? = this
     .takeIf { it.isNotEmpty() }
 
 fun responseResultFromState(state: NotesState) =
-    if (state == NotesState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR
+    if (state != NotesState.FAILING) ResponseResult.SUCCESS else ResponseResult.ERROR

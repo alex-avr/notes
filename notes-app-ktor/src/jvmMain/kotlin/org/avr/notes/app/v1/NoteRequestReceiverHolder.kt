@@ -4,6 +4,7 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import org.avr.notes.api.v1.models.INoteRequest
 import org.avr.notes.api.v1.models.NoteCreateRequest
+import org.avr.notes.api.v1.models.NoteUpdateRequest
 import org.avr.notes.common.models.note.NoteCommand
 import org.avr.notes.mappers.MissingRequestParameterException
 
@@ -43,7 +44,7 @@ object NoteRequestReceiverHolder {
         val noteId = call.parameters[REQUEST_PARAM_NOTE_ID] ?: throw MissingRequestParameterException(
             REQUEST_PARAM_NOTE_ID
         )
-        val requestBody = call.receive<NoteCreateRequest>()
+        val requestBody = call.receive<NoteUpdateRequest>()
         val noteRequestParameters = NoteRequestParameters(noteId)
         return Pair(noteRequestParameters, requestBody)
     }
