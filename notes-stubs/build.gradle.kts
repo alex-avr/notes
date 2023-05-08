@@ -4,8 +4,6 @@ plugins {
 
 kotlin {
     jvm {}
-    macosX64 {}
-    linuxX64 {}
 
     sourceSets {
         val commonMain by getting {
@@ -13,6 +11,7 @@ kotlin {
                 implementation(kotlin("stdlib-common"))
 
                 implementation(project(":notes-common"))
+                implementation(project(":notes-api-v1-jackson"))
             }
         }
         val commonTest by getting {

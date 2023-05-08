@@ -13,6 +13,7 @@ import org.avr.notes.common.models.note.NoteCommand
 import org.avr.notes.logging.common.INotesLoggerWrapper
 import org.avr.notes.mappers.fromRequestData
 import org.avr.notes.mappers.toTransport
+import org.avr.notes.stub.NoteStub
 
 class NoteController(
     private val appSettings: NotesAppSettings,
@@ -73,7 +74,11 @@ class NoteController(
                 val (requestParameters, requestBody) = receiveNoteRequest(command, call)
                 ctx.fromRequestData(command, debugParameters, requestParameters, requestBody)
 
+                // todo: подключить обработчики Chain of responsibilities
+                // todo: обработка разных типолв заглушек
                 //processor.exec(ctx)
+                ctx.noteResponse = NoteStub.get()
+
                 logger.info(
                     msg = "Request with $command command has been handled",
                     //data = ctx.toLog("${logId}-handled")

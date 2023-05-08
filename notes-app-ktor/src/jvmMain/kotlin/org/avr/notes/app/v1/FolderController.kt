@@ -13,6 +13,7 @@ import org.avr.notes.common.models.folder.FolderCommand
 import org.avr.notes.logging.common.INotesLoggerWrapper
 import org.avr.notes.mappers.fromRequestData
 import org.avr.notes.mappers.toTransport
+import org.avr.notes.stub.FolderStub
 
 
 class FolderController(
@@ -74,7 +75,11 @@ class FolderController(
                 val (requestParameters, requestBody) = receiveFolderRequest(command, call)
                 ctx.fromRequestData(command, debugParameters, requestParameters, requestBody)
 
+                // todo: подключить обработчики Chain of responsibilities
+                // todo: обработка разных типолв заглушек
                 //processor.exec(ctx)
+                ctx.folderResponse = FolderStub.getInfo()
+
                 logger.info(
                     msg = "Request with $command command has been handled",
                     //data = ctx.toLog("${logId}-handled")
