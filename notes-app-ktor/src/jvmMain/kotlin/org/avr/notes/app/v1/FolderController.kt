@@ -72,7 +72,7 @@ class FolderController(
                     //data = ctx.toLog("${logId}-got")
                 )
 
-                val debugParameters = DebugHeaderHelper.getDebugParametersFromHeaders(call)
+                val debugParameters = call.getDebugParametersFromHeaders()
                 val (requestParameters, requestBody) = receiveFolderRequest(command, call)
                 ctx.fromRequestData(command, debugParameters, requestParameters, requestBody)
 

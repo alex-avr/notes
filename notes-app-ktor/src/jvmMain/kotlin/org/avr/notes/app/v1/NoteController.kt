@@ -71,7 +71,7 @@ class NoteController(
                     //data = ctx.toLog("${logId}-got")
                 )
 
-                val debugParameters = DebugHeaderHelper.getDebugParametersFromHeaders(call)
+                val debugParameters = call.getDebugParametersFromHeaders()
                 val (requestParameters, requestBody) = receiveNoteRequest(command, call)
                 ctx.fromRequestData(command, debugParameters, requestParameters, requestBody)
 
