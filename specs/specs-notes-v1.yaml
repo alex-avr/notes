@@ -20,6 +20,26 @@ paths:
         - notes
       summary: Создание новой заметки
       operationId: createNote
+      parameters:
+        - name: X-Request-Id
+          in: header
+          description: идентификатор запроса
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Work-Mode
+          in: header
+          description: режим обработки запроса
+          required: false
+          schema:
+            type: string
+        - name: X-Stub-Type
+          in: header
+          description: вид заглушки
+          required: false
+          schema:
+            type: string
       requestBody:
         description: данные для новой заметки
         content:
@@ -53,6 +73,25 @@ paths:
           in: path
           description: идентификатор заметки
           required: true
+          schema:
+            type: string
+        - name: X-Request-Id
+          in: header
+          description: идентификатор запроса
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Work-Mode
+          in: header
+          description: режим обработки запроса
+          required: false
+          schema:
+            type: string
+        - name: X-Stub-Type
+          in: header
+          description: вид заглушки
+          required: false
           schema:
             type: string
       requestBody:
@@ -89,6 +128,25 @@ paths:
           required: true
           schema:
             type: string
+        - name: X-Request-Id
+          in: header
+          description: идентификатор запроса
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Work-Mode
+          in: header
+          description: режим обработки запроса
+          required: false
+          schema:
+            type: string
+        - name: X-Stub-Type
+          in: header
+          description: вид заглушки
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: Данные заметки переданы на клиент
@@ -109,6 +167,25 @@ paths:
           in: path
           description: идентификатор заметки
           required: true
+          schema:
+            type: string
+        - name: X-Request-Id
+          in: header
+          description: идентификатор запроса
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Work-Mode
+          in: header
+          description: режим обработки запроса
+          required: false
+          schema:
+            type: string
+        - name: X-Stub-Type
+          in: header
+          description: вид заглушки
+          required: false
           schema:
             type: string
       responses:
@@ -135,6 +212,25 @@ paths:
           explode: true
           schema:
             type: string
+        - name: X-Request-Id
+          in: header
+          description: идентификатор запроса
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Work-Mode
+          in: header
+          description: режим обработки запроса
+          required: false
+          schema:
+            type: string
+        - name: X-Stub-Type
+          in: header
+          description: вид заглушки
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: Поиск заметок выполнен успешно
@@ -151,6 +247,26 @@ paths:
         - folders
       summary: Создание новой папки
       operationId: createFolder
+      parameters:
+        - name: X-Request-Id
+          in: header
+          description: идентификатор запроса
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Work-Mode
+          in: header
+          description: режим обработки запроса
+          required: false
+          schema:
+            type: string
+        - name: X-Stub-Type
+          in: header
+          description: вид заглушки
+          required: false
+          schema:
+            type: string
       requestBody:
         description: данные для новой папки
         content:
@@ -184,6 +300,25 @@ paths:
           in: path
           description: идентификатор папки
           required: true
+          schema:
+            type: string
+        - name: X-Request-Id
+          in: header
+          description: идентификатор запроса
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Work-Mode
+          in: header
+          description: режим обработки запроса
+          required: false
+          schema:
+            type: string
+        - name: X-Stub-Type
+          in: header
+          description: вид заглушки
+          required: false
           schema:
             type: string
       requestBody:
@@ -221,6 +356,25 @@ paths:
           required: true
           schema:
             type: string
+        - name: X-Request-Id
+          in: header
+          description: идентификатор запроса
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Work-Mode
+          in: header
+          description: режим обработки запроса
+          required: false
+          schema:
+            type: string
+        - name: X-Stub-Type
+          in: header
+          description: вид заглушки
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: Данные с информацией о папке переданы на клиент
@@ -241,6 +395,25 @@ paths:
           in: path
           description: идентификатор папки
           required: true
+          schema:
+            type: string
+        - name: X-Request-Id
+          in: header
+          description: идентификатор запроса
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Work-Mode
+          in: header
+          description: режим обработки запроса
+          required: false
+          schema:
+            type: string
+        - name: X-Stub-Type
+          in: header
+          description: вид заглушки
+          required: false
           schema:
             type: string
       responses:
@@ -264,6 +437,25 @@ paths:
           in: path
           description: идентификатор папки
           required: true
+          schema:
+            type: string
+        - name: X-Request-Id
+          in: header
+          description: идентификатор запроса
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Work-Mode
+          in: header
+          description: режим обработки запроса
+          required: false
+          schema:
+            type: string
+        - name: X-Stub-Type
+          in: header
+          description: вид заглушки
+          required: false
           schema:
             type: string
       responses:
@@ -341,7 +533,6 @@ components:
     FolderCreateRequest:
       allOf:
         - $ref: '#/components/schemas/IFolderRequest'
-        - $ref: '#/components/schemas/RequestDebug'
         - type: object
           properties:
             parentFolderId:
@@ -352,7 +543,6 @@ components:
     FolderGetInfoRequest:
       allOf:
         - $ref: '#/components/schemas/IFolderRequest'
-        - $ref: '#/components/schemas/RequestDebug'
         - type: object
           properties:
             folderId:
@@ -363,7 +553,6 @@ components:
     FolderGetChildrenRequest:
       allOf:
         - $ref: '#/components/schemas/IFolderRequest'
-        - $ref: '#/components/schemas/RequestDebug'
         - type: object
           properties:
             folderId:
@@ -372,7 +561,6 @@ components:
     FolderUpdateRequest:
       allOf:
         - $ref: '#/components/schemas/IFolderRequest'
-        - $ref: '#/components/schemas/RequestDebug'
         - type: object
           properties:
             folderInfo:
@@ -383,7 +571,6 @@ components:
     FolderDeleteRequest:
       allOf:
         - $ref: '#/components/schemas/IFolderRequest'
-        - $ref: '#/components/schemas/RequestDebug'
         - type: object
           properties:
             folderId:
@@ -412,7 +599,6 @@ components:
     NoteCreateRequest:
       allOf:
         - $ref: '#/components/schemas/INoteRequest'
-        - $ref: '#/components/schemas/RequestDebug'
         - type: object
           properties:
             parentFolderId:
@@ -423,7 +609,6 @@ components:
     NoteGetRequest:
       allOf:
         - $ref: '#/components/schemas/INoteRequest'
-        - $ref: '#/components/schemas/RequestDebug'
         - type: object
           properties:
             noteId:
@@ -432,7 +617,6 @@ components:
     NoteUpdateRequest:
       allOf:
         - $ref: '#/components/schemas/INoteRequest'
-        - $ref: '#/components/schemas/RequestDebug'
         - type: object
           properties:
             noteInfo:
@@ -443,7 +627,6 @@ components:
     NoteDeleteRequest:
       allOf:
         - $ref: '#/components/schemas/INoteRequest'
-        - $ref: '#/components/schemas/RequestDebug'
         - type: object
           properties:
             noteId:
@@ -460,7 +643,6 @@ components:
     NoteSearchRequest:
       allOf:
         - $ref: '#/components/schemas/INoteRequest'
-        - $ref: '#/components/schemas/RequestDebug'
         - type: object
           properties:
             noteFilter:
@@ -678,28 +860,14 @@ components:
 
 
     # STUBS ======================
-    RequestDebugMode:
+    RequestWorkMode:
       type: string
       enum:
         - prod
         - test
         - stub
 
-    RequestDebug:
-      type: object
-      properties:
-        debug:
-          $ref: '#/components/schemas/DebugSettings'
-
-    DebugSettings:
-      type: object
-      properties:
-        mode:
-          $ref: '#/components/schemas/RequestDebugMode'
-        stub:
-          $ref: '#/components/schemas/RequestDebugStubs'
-
-    RequestDebugStubs:
+    RequestStubType:
       type: string
       description: Перечисления всех стабов
       enum:

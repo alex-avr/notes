@@ -2,6 +2,8 @@ package org.avr.notes.mappers
 
 import kotlinx.datetime.Instant
 import org.avr.notes.api.v1.models.*
+import org.avr.notes.api.v1.FolderRequestParameters
+import org.avr.notes.api.v1.RequestDebugParameters
 import org.avr.notes.common.FolderContext
 import org.avr.notes.common.models.Folder
 import org.avr.notes.common.models.NotesRequestId
@@ -16,19 +18,21 @@ import kotlin.test.assertEquals
 class FolderMappersTest {
     @Test
     fun testCreateFolderFromTransport() {
-        val request = FolderCreateRequest(
+        val requestBody = FolderCreateRequest(
             requestType = "create",
             requestId = "test_id",
-            debug = DebugSettings(
-                mode = RequestDebugMode.STUB,
-                stub = RequestDebugStubs.SUCCESS
-            ),
             parentFolderId = null,
             folderData = FolderData("new_folder", "2023-04-03T10:00:00Z", "2023-04-04T12:00:00Z")
         )
 
         val context = FolderContext()
-        context.fromTransport(request)
+
+        val folderCommand = FolderCommand.CREATE_FOLDER
+        val debugParameters = RequestDebugParameters(requestId = "test_id",
+            workMode = RequestWorkMode.STUB,
+            stubType = RequestStubType.SUCCESS)
+        val requestParameters = FolderRequestParameters()
+        context.fromRequestData(folderCommand, debugParameters, requestParameters, requestBody)
 
         assertEquals(FolderCommand.CREATE_FOLDER, context.command)
         assertEquals(NotesState.NONE, context.state)

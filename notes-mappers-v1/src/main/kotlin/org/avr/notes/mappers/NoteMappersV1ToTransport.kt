@@ -16,7 +16,7 @@ fun NoteContext.toTransport(): INoteResponse = when (command) {
     NoteCommand.READ_NOTE -> toTransportRead()
     NoteCommand.UPDATE_NOTE -> if (hasUpdateConflict()) toTransportUpdateConflict() else toTransportUpdate()
     NoteCommand.DELETE_NOTE -> toTransportDelete()
-    NoteCommand.SEARCH_NOTE -> toTransportSearch()
+    NoteCommand.SEARCH_NOTES -> toTransportSearch()
     NoteCommand.NONE -> throw UnknownNoteCommandException(command)
 }
 

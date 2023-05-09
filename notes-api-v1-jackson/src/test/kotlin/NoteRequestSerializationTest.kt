@@ -1,6 +1,9 @@
 package org.avr.notes.api.v1
 
-import org.avr.notes.api.v1.models.*
+import org.avr.notes.api.v1.models.INoteRequest
+import org.avr.notes.api.v1.models.NoteCreateRequest
+import org.avr.notes.api.v1.models.NoteData
+import org.avr.notes.api.v1.apiV1Mapper
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
@@ -12,10 +15,6 @@ class NoteRequestSerializationTest {
     private val createNoteRequest = NoteCreateRequest(
         requestType = "create",
         requestId = "74656",
-        debug = DebugSettings(
-            mode = RequestDebugMode.STUB,
-            stub = RequestDebugStubs.SUCCESS
-        ),
         parentFolderId = "root-folder-id",
         noteData = NoteData(
             title = "Test title",
@@ -31,8 +30,6 @@ class NoteRequestSerializationTest {
 
         assertContains(json, Regex("\"requestType\":\\s*\"create\""))
         assertContains(json, Regex("\"requestId\":\\s*\"74656\""))
-        assertContains(json, Regex("\"mode\":\\s*\"stub\""))
-        assertContains(json, Regex("\"stub\":\\s*\"success\""))
         assertContains(json, Regex("\"parentFolderId\":\\s*\"root-folder-id\""))
         assertContains(json, Regex("\"title\":\\s*\"Test title\""))
         assertContains(json, Regex("\"body\":\\s*\"Some body\""))

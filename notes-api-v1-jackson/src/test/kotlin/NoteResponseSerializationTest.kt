@@ -3,6 +3,7 @@ package org.avr.notes.api.v1
 import org.avr.notes.api.v1.models.INoteResponse
 import org.avr.notes.api.v1.models.NoteCreateResponse
 import org.avr.notes.api.v1.models.ResponseResult
+import org.avr.notes.api.v1.apiV1Mapper
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals

@@ -6,5 +6,5 @@ enum class NoteCommand {
     READ_NOTE,
     UPDATE_NOTE,
     DELETE_NOTE,
-    SEARCH_NOTE
+    SEARCH_NOTES
 }
