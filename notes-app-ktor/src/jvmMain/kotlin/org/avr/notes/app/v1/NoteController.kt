@@ -20,40 +20,30 @@ class NoteController(
     private val appSettings: NotesAppSettings,
     private val logger: INotesLoggerWrapper
 ) {
-    suspend fun createNote(call: ApplicationCall) {
-        processNoteRequestV1(
-            call,
-            NoteCommand.CREATE_NOTE
-        )
-    }
+    suspend fun createNote(call: ApplicationCall) = processNoteRequestV1(
+        call,
+        NoteCommand.CREATE_NOTE
+    )
 
-    suspend fun updateNote(call: ApplicationCall) {
-        processNoteRequestV1(
-            call,
-            NoteCommand.UPDATE_NOTE
-        )
-    }
+    suspend fun updateNote(call: ApplicationCall) = processNoteRequestV1(
+        call,
+        NoteCommand.UPDATE_NOTE
+    )
 
-    suspend fun readNote(call: ApplicationCall) {
-        processNoteRequestV1(
-            call,
-            NoteCommand.READ_NOTE
-        )
-    }
+    suspend fun readNote(call: ApplicationCall) = processNoteRequestV1(
+        call,
+        NoteCommand.READ_NOTE
+    )
 
-    suspend fun deleteNote(call: ApplicationCall) {
-        processNoteRequestV1(
-            call,
-            NoteCommand.DELETE_NOTE
-        )
-    }
+    suspend fun deleteNote(call: ApplicationCall) = processNoteRequestV1(
+        call,
+        NoteCommand.DELETE_NOTE
+    )
 
-    suspend fun searchNotes(call: ApplicationCall) {
-        processNoteRequestV1(
-            call,
-            NoteCommand.SEARCH_NOTES
-        )
-    }
+    suspend fun searchNotes(call: ApplicationCall) = processNoteRequestV1(
+        call,
+        NoteCommand.SEARCH_NOTES
+    )
 
     private suspend fun processNoteRequestV1(
         call: ApplicationCall,

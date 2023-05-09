@@ -21,40 +21,30 @@ class FolderController(
     private val appSettings: NotesAppSettings,
     private val logger: INotesLoggerWrapper
 ) {
-    suspend fun createFolder(call: ApplicationCall) {
-        processFolderRequestV1(
-            call,
-            FolderCommand.CREATE_FOLDER
-        )
-    }
+    suspend fun createFolder(call: ApplicationCall) = processFolderRequestV1(
+        call,
+        FolderCommand.CREATE_FOLDER
+    )
 
-    suspend fun updateFolder(call: ApplicationCall) {
-        processFolderRequestV1(
-            call,
-            FolderCommand.UPDATE_FOLDER
-        )
-    }
+    suspend fun updateFolder(call: ApplicationCall) = processFolderRequestV1(
+        call,
+        FolderCommand.UPDATE_FOLDER
+    )
 
-    suspend fun getFolderInfo(call: ApplicationCall) {
-        processFolderRequestV1(
-            call,
-            FolderCommand.GET_FOLDER_INFO
-        )
-    }
+    suspend fun getFolderInfo(call: ApplicationCall) = processFolderRequestV1(
+        call,
+        FolderCommand.GET_FOLDER_INFO
+    )
 
-    suspend fun deleteFolder(call: ApplicationCall) {
-        processFolderRequestV1(
-            call,
-            FolderCommand.DELETE_FOLDER
-        )
-    }
+    suspend fun deleteFolder(call: ApplicationCall) = processFolderRequestV1(
+        call,
+        FolderCommand.DELETE_FOLDER
+    )
 
-    suspend fun getFolderChildren(call: ApplicationCall) {
-        processFolderRequestV1(
-            call,
-            FolderCommand.GET_FOLDER_CHILDREN
-        )
-    }
+    suspend fun getFolderChildren(call: ApplicationCall) = processFolderRequestV1(
+        call,
+        FolderCommand.GET_FOLDER_CHILDREN
+    )
 
     private suspend fun processFolderRequestV1(
         call: ApplicationCall,
