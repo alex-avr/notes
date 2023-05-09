@@ -1,8 +1,8 @@
 package org.avr.notes.mappers
 
 import org.avr.notes.api.v1.models.*
-import org.avr.notes.app.v1.RequestDebugParameters
-import org.avr.notes.app.v1.NoteRequestParameters
+import org.avr.notes.api.v1.RequestDebugParameters
+import org.avr.notes.api.v1.NoteRequestParameters
 import org.avr.notes.common.NoteContext
 import org.avr.notes.common.models.FolderChildType
 import org.avr.notes.common.models.Note

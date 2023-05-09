@@ -1,4 +1,4 @@
-package org.avr.notes.app.v1
+package org.avr.notes.api.v1
 
 import org.avr.notes.api.v1.models.RequestStubType
 import org.avr.notes.api.v1.models.RequestWorkMode

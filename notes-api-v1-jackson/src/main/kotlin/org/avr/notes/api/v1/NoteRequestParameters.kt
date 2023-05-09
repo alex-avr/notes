@@ -1,4 +1,4 @@
-package org.avr.notes.app.v1
+package org.avr.notes.api.v1
 
 /**
  * Параметры запроса для заметок

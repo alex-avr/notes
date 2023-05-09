@@ -2,8 +2,8 @@ package org.avr.notes.mappers
 
 import kotlinx.datetime.Instant
 import org.avr.notes.api.v1.models.*
-import org.avr.notes.app.v1.FolderRequestParameters
-import org.avr.notes.app.v1.RequestDebugParameters
+import org.avr.notes.api.v1.FolderRequestParameters
+import org.avr.notes.api.v1.RequestDebugParameters
 import org.avr.notes.common.FolderContext
 import org.avr.notes.common.models.Folder
 import org.avr.notes.common.models.NotesRequestId

@@ -7,7 +7,7 @@ import io.ktor.server.config.*
 import io.ktor.server.testing.*
 import org.avr.notes.api.v1.models.*
 import org.avr.notes.app.moduleJvm
-import org.avr.notes.app.v1.DebugHeaders
+import org.avr.notes.api.v1.DebugHeaders
 import org.avr.notes.stub.NoteStub
 import org.junit.Test
 import kotlin.test.assertEquals

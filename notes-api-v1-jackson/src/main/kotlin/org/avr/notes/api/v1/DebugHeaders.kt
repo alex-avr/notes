@@ -1,4 +1,4 @@
-package org.avr.notes.app.v1
+package org.avr.notes.api.v1
 
 object DebugHeaders {
     const val HEADER_REQUEST_ID   = "X-Request-Id"

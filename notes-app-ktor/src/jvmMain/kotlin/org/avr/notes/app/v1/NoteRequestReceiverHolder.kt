@@ -2,6 +2,7 @@ package org.avr.notes.app.v1
 
 import io.ktor.server.application.*
 import io.ktor.server.request.*
+import org.avr.notes.api.v1.NoteRequestParameters
 import org.avr.notes.api.v1.models.INoteRequest
 import org.avr.notes.api.v1.models.NoteCreateRequest
 import org.avr.notes.api.v1.models.NoteUpdateRequest

@@ -2,6 +2,7 @@ package org.avr.notes.app.v1
 
 import io.ktor.server.application.*
 import io.ktor.server.request.*
+import org.avr.notes.api.v1.FolderRequestParameters
 import org.avr.notes.api.v1.models.FolderCreateRequest
 import org.avr.notes.api.v1.models.FolderUpdateRequest
 import org.avr.notes.api.v1.models.IFolderRequest
