@@ -21,6 +21,12 @@ private fun Folder.toTransport(): FolderResponseObject = FolderResponseObject(
 private fun FolderContext.hasUpdateConflict() =
     this.errors.find { it.code == FolderErrorCode.CONFLICT.toString() } != null
 
+
+fun FolderContext.toTransportWsInit() = WsInitResponse(
+    result = if (errors.isEmpty()) ResponseResult.SUCCESS else ResponseResult.ERROR,
+    errors = errors.toTransportErrors(),
+)
+
 fun FolderContext.toTransport(): IFolderResponse = when(command) {
     FolderCommand.CREATE_FOLDER -> toTransportCreate()
     FolderCommand.UPDATE_FOLDER -> if (hasUpdateConflict()) toTransportUpdateConflict() else toTransportUpdate()

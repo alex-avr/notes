@@ -1,8 +1,8 @@
 package org.avr.notes.mappers
 
-import org.avr.notes.api.v1.models.*
-import org.avr.notes.api.v1.RequestDebugParameters
 import org.avr.notes.api.v1.NoteRequestParameters
+import org.avr.notes.api.v1.RequestDebugParameters
+import org.avr.notes.api.v1.models.*
 import org.avr.notes.common.NoteContext
 import org.avr.notes.common.models.FolderChildType
 import org.avr.notes.common.models.Note
@@ -62,4 +62,33 @@ private fun NoteContext.fromNoteDeleteRequestData(requestParameters: NoteRequest
     val noteId = requestParameters.noteId ?: throw MissingRequestParameterException("noteId")
 
     noteRequest = noteRequestDataToInternal(noteId, null, null, null)
+}
+
+fun NoteContext.fromTransport(request: WsRequest) {
+    val noteRequestData = request.noteRequestData
+    val noteCommand = noteCommandByRequest(noteRequestData)
+
+    val requestDebugParameters = request.requestDebugParameters()
+
+    fromRequestData(noteCommand = noteCommand,
+        debugParameters = requestDebugParameters,
+        requestParameters = NoteRequestParameters(
+            noteId = request.requestParameters?.itemId,
+            parentFolderId = request.requestParameters?.parentFolderId,
+            noteSearchFilter = request.requestParameters?.searchString
+        ),
+        requestBody = request.noteRequestData
+    )
+}
+
+private fun noteCommandByRequest(noteRequestData: INoteRequest?): NoteCommand {
+    return when (noteRequestData) {
+        is NoteCreateRequest -> NoteCommand.CREATE_NOTE
+        is NoteUpdateRequest -> NoteCommand.UPDATE_NOTE
+        is NoteDeleteRequest -> NoteCommand.DELETE_NOTE
+        is NoteGetRequest -> NoteCommand.READ_NOTE
+        is NoteSearchRequest -> NoteCommand.SEARCH_NOTES
+        null -> throw MissingRequestParameterException("noteRequestData")
+        else -> throw UnknownRequestException(noteRequestData.javaClass)
+    }
 }

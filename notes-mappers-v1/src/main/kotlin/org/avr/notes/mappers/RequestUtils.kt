@@ -1,10 +1,8 @@
 package org.avr.notes.mappers
 
 import kotlinx.datetime.Instant
-import org.avr.notes.api.v1.models.INoteRequest
-import org.avr.notes.api.v1.models.NoteSearchFilter
-import org.avr.notes.api.v1.models.RequestStubType
-import org.avr.notes.api.v1.models.RequestWorkMode
+import org.avr.notes.api.v1.RequestDebugParameters
+import org.avr.notes.api.v1.models.*
 import org.avr.notes.common.NONE
 import org.avr.notes.common.models.NotesRequestId
 import org.avr.notes.common.models.NotesWorkMode
@@ -52,3 +50,9 @@ fun RequestStubType?.transportToStubCase() = when (this) {
 fun noteSearchFilterFromTransport(searchFilter: NoteSearchFilter?): org.avr.notes.common.models.note.NoteSearchFilter =
     searchFilter?.searchString?.let { org.avr.notes.common.models.note.NoteSearchFilter(it) }
         ?: org.avr.notes.common.models.note.NoteSearchFilter.NONE
+
+fun WsRequest.requestDebugParameters() = RequestDebugParameters(
+    requestId = requestParameters?.requestId.takeIf { !it.isNullOrBlank() } ?: "",
+    workMode = requestParameters?.workMode ?: RequestWorkMode.PROD,
+    stubType = requestParameters?.stubMode ?: RequestStubType.NONE
+)
