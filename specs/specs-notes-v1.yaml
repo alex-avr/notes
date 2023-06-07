@@ -576,6 +576,58 @@ components:
             folderId:
               $ref: '#/components/schemas/FolderId'
 
+    ObjectKind:
+      description: тип объекта, для которого делается запрос
+      type: string
+      enum:
+        - folder
+        - note
+
+    WsRequestData:
+      type: object
+      description: Данные запроса для WebSocket API
+      properties:
+        requestId:
+          type: string
+          description: Идентификатор запроса для отладки
+        workMode:
+          $ref: '#/components/schemas/RequestWorkMode'
+        stubMode:
+          $ref: '#/components/schemas/RequestStubType'
+        itemId:
+          type: string
+          description: Идентификатор папки или заметки
+        parentFolderId:
+          type: string
+          description: Идентификатор родительской папки
+        searchString:
+          type: string
+          description: Строка для поиска
+
+    WsRequest:
+      type: object
+      description: Данные запроса по папкам для WebSocket API
+      properties:
+        objectKind:
+          $ref: '#/components/schemas/ObjectKind'
+        requestParameters:
+          $ref: '#/components/schemas/WsRequestData'
+        folderRequestData:
+          $ref: '#/components/schemas/IFolderRequest'
+        noteRequestData:
+          $ref: '#/components/schemas/INoteRequest'
+
+    WsInitResponse:
+      type: object
+      description: Сообщение о установление сессии WebSocket
+      properties:
+        result:
+          $ref: '#/components/schemas/ResponseResult'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+
     INoteRequest:
       type: object
       description: Базовый интерфейс для всех запросов о заметках
