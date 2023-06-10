@@ -16,6 +16,7 @@ import org.avr.notes.common.NoteContext
 import org.avr.notes.common.helpers.addError
 import org.avr.notes.common.helpers.asNotesError
 import org.avr.notes.common.models.folder.FolderCommand
+import org.avr.notes.common.models.note.NoteCommand
 import org.avr.notes.logging.common.LogLevel
 import org.avr.notes.mappers.InvalidObjectKindException
 import org.avr.notes.mappers.fromTransport
@@ -73,7 +74,11 @@ fun handleNoteRequest(request: WsRequest): String {
     val context = NoteContext()
     try {
         context.apply { fromTransport(request) }
-        context.noteResponse = NoteStub.get()
+        if (context.command == NoteCommand.SEARCH_NOTES) {
+            context.noteMultiResponse = NoteStub.searchResults()
+        } else {
+            context.noteResponse = NoteStub.get()
+        }
         return apiV1Mapper.writeValueAsString(context.toTransport())
     } catch (e: Exception) {
         context.addError(e.asNotesError())
