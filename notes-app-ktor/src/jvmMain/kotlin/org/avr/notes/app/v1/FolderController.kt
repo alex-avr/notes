@@ -16,7 +16,9 @@ import org.avr.notes.mappers.fromRequestData
 import org.avr.notes.mappers.toTransport
 import org.avr.notes.stub.FolderStub
 
-
+/**
+ * Контроллер для запросов, касающихся папок
+ */
 class FolderController(
     private val appSettings: NotesAppSettings,
     private val logger: INotesLoggerWrapper

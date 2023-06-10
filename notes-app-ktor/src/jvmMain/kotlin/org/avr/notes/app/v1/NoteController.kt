@@ -16,6 +16,9 @@ import org.avr.notes.mappers.fromRequestData
 import org.avr.notes.mappers.toTransport
 import org.avr.notes.stub.NoteStub
 
+/**
+ * Контроллер для запросов, касающихся заметок
+ */
 class NoteController(
     private val appSettings: NotesAppSettings,
     private val logger: INotesLoggerWrapper

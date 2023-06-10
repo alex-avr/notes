@@ -15,6 +15,7 @@ import org.avr.notes.common.FolderContext
 import org.avr.notes.common.NoteContext
 import org.avr.notes.common.helpers.addError
 import org.avr.notes.common.helpers.asNotesError
+import org.avr.notes.common.models.folder.FolderCommand
 import org.avr.notes.logging.common.LogLevel
 import org.avr.notes.mappers.InvalidObjectKindException
 import org.avr.notes.mappers.fromTransport
@@ -26,6 +27,9 @@ import java.util.*
 
 val sessions: MutableSet<WebSocketSession> = Collections.synchronizedSet<WebSocketSession>(LinkedHashSet())
 
+/**
+ * Контроллер WebSockets, используется для запросов и для папок, и для заметок
+ */
 suspend fun WebSocketSession.wsHandlerV1(appSettings: NotesAppSettings) {
     val logger = appSettings.corSettings.loggerProvider.logger("WsController")
     logger.log("WebSocket session created", LogLevel.TRACE)
@@ -81,7 +85,11 @@ fun handleFolderRequest(request: WsRequest): String {
     val context = FolderContext()
     try {
         context.apply { fromTransport(request) }
-        context.folderResponse = FolderStub.getInfo()
+        if (context.command == FolderCommand.GET_FOLDER_CHILDREN) {
+            context.folderChildrenResponse = FolderStub.folderWithChildren()
+        } else {
+            context.folderResponse = FolderStub.getInfo()
+        }
         return apiV1Mapper.writeValueAsString(context.toTransport())
     } catch (e: Exception) {
         return apiV1Mapper.writeValueAsString(context.toTransportWsInit())

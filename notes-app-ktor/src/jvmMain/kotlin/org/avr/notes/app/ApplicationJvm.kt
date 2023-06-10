@@ -23,7 +23,10 @@ private val clazz = Application::moduleJvm::class.qualifiedName ?: "Application"
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
-@Suppress("unused") // Referenced in application.conf_
+/**
+ * Определение модля приложения для Ktor сервера
+ */
+@Suppress("unused") // используется в application.yaml
 fun Application.moduleJvm(appSettings: NotesAppSettings = initAppSettings()) {
     install(WebSockets)
 
@@ -58,6 +61,7 @@ fun Application.moduleJvm(appSettings: NotesAppSettings = initAppSettings()) {
         allowMethod(HttpMethod.Delete)
     }
 
+    // Определение доступных маршрутов
     routing {
         route("v1") {
             v1Folders(appSettings)
