@@ -5,9 +5,9 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.server.config.*
 import io.ktor.server.testing.*
+import org.avr.notes.api.v1.DebugHeaders
 import org.avr.notes.api.v1.models.*
 import org.avr.notes.app.moduleJvm
-import org.avr.notes.api.v1.DebugHeaders
 import org.avr.notes.stub.FolderStub
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -183,7 +183,6 @@ class V1FolderStubApiTest {
         environment {
             config = MapApplicationConfig()
         }
-        val folder = FolderStub.folderWithChildren()
         ktorClient().use { client ->
             val response = client.get("/v1/folders") {
                 url {
