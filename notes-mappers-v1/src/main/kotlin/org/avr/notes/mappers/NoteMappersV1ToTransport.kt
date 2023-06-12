@@ -11,6 +11,11 @@ import org.avr.notes.common.models.note.NoteId
 private fun NoteContext.hasUpdateConflict() =
     this.errors.find { it.code == FolderErrorCode.CONFLICT.toString() } != null
 
+fun NoteContext.toTransportWsInit() = WsInitResponse(
+    result = if (errors.isEmpty()) ResponseResult.SUCCESS else ResponseResult.ERROR,
+    errors = errors.toTransportErrors(),
+)
+
 fun NoteContext.toTransport(): INoteResponse = when (command) {
     NoteCommand.CREATE_NOTE -> toTransportCreate()
     NoteCommand.READ_NOTE -> toTransportRead()

@@ -39,6 +39,13 @@ interface INotesLoggerWrapper {
         objs: Map<String, Any>? = null,
     ) = log(msg, LogLevel.DEBUG, marker, null, data, objs)
 
+    fun trace(
+        msg: String = "",
+        marker: String = "DEV",
+        data: Any? = null,
+        objs: Map<String, Any>? = null,
+    ) = log(msg, LogLevel.TRACE, marker, null, data, objs)
+
     /**
      * Функция обертка для выполнения прикладного кода с логированием перед выполнением и после
      */

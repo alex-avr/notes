@@ -4,7 +4,9 @@ import io.ktor.server.application.*
 import io.ktor.server.routing.*
 import org.avr.notes.app.common.NotesAppSettings
 
-
+/**
+ * Маршрут для папок
+ */
 fun Route.v1Folders(appSettings: NotesAppSettings) {
     val loggerFolders = appSettings.corSettings.loggerProvider.logger(Route::v1Folders::class)
     val folderController = FolderController(appSettings, loggerFolders)
@@ -32,6 +34,9 @@ fun Route.v1Folders(appSettings: NotesAppSettings) {
     }
 }
 
+/**
+ * Маршрут для заметок
+ */
 fun Route.v1Notes(appSettings: NotesAppSettings) {
     val loggerNotes = appSettings.corSettings.loggerProvider.logger(Route::v1Notes::class)
     val noteController = NoteController(appSettings, loggerNotes)

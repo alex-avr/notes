@@ -1,11 +1,8 @@
 package org.avr.notes.mappers
 
-import org.avr.notes.api.v1.models.FolderCreateRequest
-import org.avr.notes.api.v1.models.FolderData
-import org.avr.notes.api.v1.models.FolderUpdateRequest
-import org.avr.notes.api.v1.models.IFolderRequest
 import org.avr.notes.api.v1.FolderRequestParameters
 import org.avr.notes.api.v1.RequestDebugParameters
+import org.avr.notes.api.v1.models.*
 import org.avr.notes.common.FolderContext
 import org.avr.notes.common.models.Folder
 import org.avr.notes.common.models.FolderChildType
@@ -63,6 +60,33 @@ private fun FolderContext.fromFolderGetInfoRequestData(requestParameters: Folder
     val folderId = requestParameters.folderId ?: throw MissingRequestParameterException("folderId")
 
     folderRequest = folderRequestDataToInternal(folderId, null, null, null)
+}
+
+fun FolderContext.fromTransport(request: WsRequest) {
+    val folderRequestData = request.folderRequestData
+    val folderCommand = folderCommandByRequest(folderRequestData)
+
+    val requestDebugParameters = request.requestDebugParameters()
+
+    fromRequestData(folderCommand = folderCommand,
+        debugParameters = requestDebugParameters,
+        requestParameters = FolderRequestParameters(
+            folderId = request.requestParameters?.itemId
+        ),
+        requestBody = request.folderRequestData
+    )
+}
+
+private fun folderCommandByRequest(folderRequestData: IFolderRequest?): FolderCommand {
+    return when (folderRequestData) {
+        is FolderCreateRequest -> FolderCommand.CREATE_FOLDER
+        is FolderUpdateRequest -> FolderCommand.UPDATE_FOLDER
+        is FolderDeleteRequest -> FolderCommand.DELETE_FOLDER
+        is FolderGetInfoRequest -> FolderCommand.GET_FOLDER_INFO
+        is FolderGetChildrenRequest -> FolderCommand.GET_FOLDER_CHILDREN
+        null -> throw MissingRequestParameterException("folderRequestData")
+        else -> throw UnknownRequestException(folderRequestData.javaClass)
+    }
 }
 
 

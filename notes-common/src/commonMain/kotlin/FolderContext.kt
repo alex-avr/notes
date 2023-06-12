@@ -5,7 +5,7 @@ import org.avr.notes.common.models.*
 import org.avr.notes.common.models.folder.FolderCommand
 import org.avr.notes.common.stubs.NotesStubs
 
-data class FolderContext(
+data class FolderContext (
     var command: FolderCommand = FolderCommand.NONE,
     var state: NotesState = NotesState.NONE,
     var errors: MutableList<NotesError> = mutableListOf(),
@@ -19,4 +19,4 @@ data class FolderContext(
     var folderRequest: Folder = Folder(),
     var folderResponse: Folder = Folder(),
     var folderChildrenResponse: MutableList<IFolderChild> = mutableListOf(),
-)
+) : IContext

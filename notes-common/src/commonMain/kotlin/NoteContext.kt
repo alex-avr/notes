@@ -21,4 +21,4 @@ data class NoteContext(
     var noteSearchFilter: NoteSearchFilter = NoteSearchFilter.NONE,
     var noteResponse: Note = Note(),
     var noteMultiResponse: MutableList<Note> = mutableListOf()
-)
+) : IContext
