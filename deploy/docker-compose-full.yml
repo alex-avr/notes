@@ -1,30 +1,24 @@
-# Минимальная версия инфраструктуры на базе
+# Полная конфигурация для приложэения
+# app: Notes
+# PostgreSQL
 # OpenSearch
 # OpenSearch Dashboards
 # Fluent Bit
 
 version: '3'
 services:
-
-  #  app:
-  #    image: nginx:latest
-  #    ports:
-  #      - "8080:80"
-  #    depends_on:
-  #      - fluent-bit
-  #    volumes:
-  #      - ./volumes/nginx/default.conf:/etc/nginx/conf.d/default.conf
-  #      - ./volumes/nginx/nginx.conf:/etc/nginx/nginx.conf
-  #    logging:
-  #      # используемый драйвер логгирования
-  #      driver: "fluentd"
-  #      options:
-  #        # куда посылать лог-сообщения, необходимо чтобы адрес
-  #        # совпадал с настройками плагина forward
-  #        fluentd-address: localhost:24224
-  #        # теги используются для маршрутизации лог-сообщений, тема
-  #        # маршрутизации будет рассмотрена ниже
-  #        tag: app.logs
+  app:
+    image: "notes-app-ktor:0.0.1"
+    container_name: app-ktor
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+#    environment:
+#      SQL_URL: jdbc:postgresql://psql:5432/marketplace
+#    depends_on:
+#      psql:
+#        condition: service_healthy
 
   fluent-bit:
     container_name: fluent-bit
@@ -67,7 +61,7 @@ services:
     image: opensearchproject/opensearch-dashboards:latest
     container_name: opensearch-dashboards
     ports:
-      - 5601:5601
+      - "5601:5601"
     expose:
       - "5601"
     environment:
@@ -77,3 +71,4 @@ services:
 
 volumes:
   opensearch-data:
+#  postgres_data:
