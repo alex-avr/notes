@@ -46,10 +46,10 @@ kotlin {
                 implementation(ktorServer("core")) // "io.ktor:ktor-server-core:$ktorVersion"
 
                 implementation(project(":notes-common"))
-                //implementation(project(":notes-api-log1"))
-                //implementation(project(":notes-mappers-log1"))
+                implementation(project(":notes-api-log1"))
+                implementation(project(":notes-mappers-log1"))
                 implementation(project(":notes-stubs"))
-                //implementation(project(":notes-biz"))
+                implementation(project(":notes-biz"))
                 //implementation(project(":notes-repo-in-memory"))
                 //implementation(project(":notes-repo-stubs"))
                 implementation(project(":notes-api-v1-jackson"))

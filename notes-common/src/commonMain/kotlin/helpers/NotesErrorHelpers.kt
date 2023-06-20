@@ -63,3 +63,14 @@ fun NoteContext.fail(error: NotesError) {
     addError(error)
     state = NotesState.FAILING
 }
+
+val errorNotFound = NotesError(
+    field = "id",
+    message = "Not Found",
+    code = "not-found"
+)
+
+val errorEmptyId = NotesError(
+    field = "id",
+    message = "Id must not be null or blank"
+)

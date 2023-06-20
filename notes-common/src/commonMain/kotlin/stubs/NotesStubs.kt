@@ -9,5 +9,6 @@ enum class NotesStubs {
     BAD_NOTE_BODY,
     BAD_FOLDER_NAME,
     CANNOT_DELETE,
-    BAD_SEARCH_STRING
+    BAD_SEARCH_STRING,
+    DB_ERROR
 }

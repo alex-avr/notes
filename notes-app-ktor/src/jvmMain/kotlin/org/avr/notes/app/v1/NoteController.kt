@@ -11,6 +11,7 @@ import org.avr.notes.common.NoteContext
 import org.avr.notes.common.helpers.asNotesError
 import org.avr.notes.common.models.NotesState
 import org.avr.notes.common.models.note.NoteCommand
+import org.avr.notes.log.mappers.toLog
 import org.avr.notes.logging.common.INotesLoggerWrapper
 import org.avr.notes.mappers.fromRequestData
 import org.avr.notes.mappers.toTransport
@@ -56,12 +57,12 @@ class NoteController(
         val ctx = NoteContext(
             processingStartTime = Clock.System.now(),
         )
-        //val processor = appSettings.noteProcessor
+        val processor = appSettings.noteProcessor
         try {
             logger.doWithLogging(id = logId) {
                 logger.info(
                     msg = "Got request with command: $command",
-                    //data = ctx.toLog("${logId}-got")
+                    data = ctx.toLog("${logId}-got")
                 )
 
                 val debugParameters = call.getDebugParametersFromHeaders()
@@ -70,12 +71,12 @@ class NoteController(
 
                 // todo: подключить обработчики Chain of responsibilities
                 // todo: обработка разных типолв заглушек
-                //processor.exec(ctx)
+                processor.exec(ctx)
                 ctx.noteResponse = NoteStub.get()
 
                 logger.info(
                     msg = "Request with $command command has been handled",
-                    //data = ctx.toLog("${logId}-handled")
+                    data = ctx.toLog("${logId}-handled")
                 )
                 call.respond(ctx.toTransport())
             }
@@ -87,7 +88,7 @@ class NoteController(
                 )
                 ctx.state = NotesState.FAILING
                 ctx.errors.add(e.asNotesError())
-                //processor.exec(ctx)
+                processor.exec(ctx)
                 call.respond(ctx.toTransport())
             }
         }

@@ -46,6 +46,8 @@ object FolderStub {
         )
     )
 
+    fun prepareResult(block: Folder.() -> Unit): Folder = getInfo().apply(block)
+
 //    fun folderWithChildren() = Folder(
 //        id = FolderId("8640c047-a6a1-4c5b-b3a8-204c809bdb1d"),
 //        parentFolderId = FolderId.NONE,
