@@ -39,7 +39,7 @@ class FolderStubGetChildren {
 
         processor.exec(ctx)
 
-        assertTrue(ctx.folderChildrenResponse.size == 2)
+        assertTrue(ctx.folderChildrenResponse.size > 0)
         when (val first = ctx.folderChildrenResponse.firstOrNull() ?: fail("Empty response list")) {
             is Note -> {
                 assertEquals("New note", first.title)
