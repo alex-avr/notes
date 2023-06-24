@@ -43,6 +43,7 @@ class NoteProcessor(private val settings: NotesCorSettings = NotesCorSettings())
                 noteStubs("Обработка стабов") {
                     stubNoteGetSuccess("Имитация успешной обработки")
                     stubNoteValidationBadId("Имитация ошибки валидации итдентификатора заметки")
+                    stubNoteValidationBadTitle("Имитация ошибки валидации заголовка заметки")
                     stubNoteDbError("Имитация ошибки работы с БД")
                     stubNoteNoCase("Ошибка: запрошенный стаб недопустим")
                 }
