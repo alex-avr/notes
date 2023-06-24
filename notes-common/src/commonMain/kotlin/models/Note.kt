@@ -14,4 +14,6 @@ data class Note(
     var updateTime: Instant = Instant.NONE,
     var version: Int = 0,
     override val folderChildType: FolderChildType = FolderChildType.NOTE
-) : IFolderChild
+) : IFolderChild {
+    fun deepCopy() = copy()
+}

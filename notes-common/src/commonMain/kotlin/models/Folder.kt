@@ -13,4 +13,9 @@ data class Folder(
     var version: Int = 1,
     var children: MutableList<IFolderChild> = mutableListOf(),
     override val folderChildType: FolderChildType = FolderChildType.FOLDER
-) : IFolderChild
+) : IFolderChild {
+
+    fun deepCopy() = copy(
+        children = children.toMutableList()
+    )
+}

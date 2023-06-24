@@ -34,3 +34,17 @@ fun ICorChainDsl<NoteContext>.validateIdNotEmpty(title: String) = worker {
         )
     }
 }
+
+fun ICorChainDsl<NoteContext>.validateParentFolderIdNotEmpty(title: String) = worker {
+    this.title = title
+    on { noteValidating.parentFolderId.asString().isEmpty() }
+    handle {
+        fail(
+            errorValidation(
+                field = "parentFolderId",
+                violationCode = "empty",
+                description = "field must not be empty"
+            )
+        )
+    }
+}
