@@ -2,10 +2,10 @@ package org.avr.notes.biz.stub.folder
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import kotlinx.datetime.Instant
 import org.avr.notes.biz.FolderProcessor
 import org.avr.notes.common.FolderContext
 import org.avr.notes.common.models.Folder
+import org.avr.notes.common.models.Note
 import org.avr.notes.common.models.NotesState
 import org.avr.notes.common.models.NotesWorkMode
 import org.avr.notes.common.models.folder.FolderCommand
@@ -13,20 +13,20 @@ import org.avr.notes.common.models.folder.FolderId
 import org.avr.notes.common.stubs.NotesStubs
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
+import kotlin.test.fail
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class FolderStubCreateTest {
+class FolderStubGetChildren {
     private val processor = FolderProcessor()
 
     private val id = FolderId("8640c047-a6a1-4c5b-b3a8-204c809bdb1d")
     private val title = "Test Folder"
-    private val createTime = Instant.parse("2023-02-01T10:00Z")
-    private val version = 1
 
     @Test
-    fun create() = runTest {
+    fun getChildren() = runTest {
         val ctx = FolderContext(
-            command = FolderCommand.CREATE_FOLDER,
+            command = FolderCommand.GET_FOLDER_CHILDREN,
             state = NotesState.NONE,
             workMode = NotesWorkMode.STUB,
             stubCase = NotesStubs.SUCCESS,
@@ -39,17 +39,19 @@ class FolderStubCreateTest {
 
         processor.exec(ctx)
 
-        assertEquals(id, ctx.folderResponse.id)
-        assertEquals(FolderId.NONE, ctx.folderResponse.parentFolderId)
-        assertEquals(title, ctx.folderResponse.title)
-        assertEquals(createTime, ctx.folderResponse.createTime)
-        assertEquals(version, ctx.folderResponse.version)
+        assertTrue(ctx.folderChildrenResponse.size == 2)
+        when (val first = ctx.folderChildrenResponse.firstOrNull() ?: fail("Empty response list")) {
+            is Note -> {
+                assertEquals("New note", first.title)
+            }
+            else -> fail("Note expected")
+        }
     }
 
     @Test
     fun badId() = runTest {
         val ctx = FolderContext(
-            command = FolderCommand.CREATE_FOLDER,
+            command = FolderCommand.GET_FOLDER_CHILDREN,
             state = NotesState.NONE,
             workMode = NotesWorkMode.STUB,
             stubCase = NotesStubs.BAD_ID,
@@ -68,30 +70,9 @@ class FolderStubCreateTest {
     }
 
     @Test
-    fun badTitle() = runTest {
-        val ctx = FolderContext(
-            command = FolderCommand.CREATE_FOLDER,
-            state = NotesState.NONE,
-            workMode = NotesWorkMode.STUB,
-            stubCase = NotesStubs.BAD_FOLDER_NAME,
-            folderRequest = Folder(
-                id = id,
-                parentFolderId = FolderId.NONE,
-                title = ""
-            )
-        )
-
-        processor.exec(ctx)
-
-        assertEquals(Folder(), ctx.folderResponse)
-        assertEquals("title", ctx.errors.firstOrNull()?.field)
-        assertEquals("validation", ctx.errors.firstOrNull()?.group)
-    }
-
-    @Test
     fun databaseError() = runTest {
         val ctx = FolderContext(
-            command = FolderCommand.CREATE_FOLDER,
+            command = FolderCommand.GET_FOLDER_CHILDREN,
             state = NotesState.NONE,
             workMode = NotesWorkMode.STUB,
             stubCase = NotesStubs.DB_ERROR,
@@ -111,7 +92,7 @@ class FolderStubCreateTest {
     @Test
     fun badNoCase() = runTest {
         val ctx = FolderContext(
-            command = FolderCommand.CREATE_FOLDER,
+            command = FolderCommand.GET_FOLDER_CHILDREN,
             state = NotesState.NONE,
             workMode = NotesWorkMode.STUB,
             stubCase = NotesStubs.NONE,

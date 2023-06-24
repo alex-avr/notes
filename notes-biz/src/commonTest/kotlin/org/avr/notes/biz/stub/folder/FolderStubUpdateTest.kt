@@ -15,25 +15,29 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class FolderStubCreateTest {
+class FolderStubUpdateTest {
     private val processor = FolderProcessor()
 
     private val id = FolderId("8640c047-a6a1-4c5b-b3a8-204c809bdb1d")
     private val title = "Test Folder"
     private val createTime = Instant.parse("2023-02-01T10:00Z")
-    private val version = 1
+    private val updateTime = Instant.parse("2023-02-01T10:00Z")
+    private val version = 2
 
     @Test
-    fun create() = runTest {
+    fun update() = runTest {
         val ctx = FolderContext(
-            command = FolderCommand.CREATE_FOLDER,
+            command = FolderCommand.UPDATE_FOLDER,
             state = NotesState.NONE,
             workMode = NotesWorkMode.STUB,
             stubCase = NotesStubs.SUCCESS,
             folderRequest = Folder(
                 id = id,
                 parentFolderId = FolderId.NONE,
-                title = title
+                title = title,
+                createTime = createTime,
+                updateTime = updateTime,
+                version = version
             )
         )
 
@@ -43,13 +47,14 @@ class FolderStubCreateTest {
         assertEquals(FolderId.NONE, ctx.folderResponse.parentFolderId)
         assertEquals(title, ctx.folderResponse.title)
         assertEquals(createTime, ctx.folderResponse.createTime)
+        assertEquals(updateTime, ctx.folderResponse.updateTime)
         assertEquals(version, ctx.folderResponse.version)
     }
 
     @Test
     fun badId() = runTest {
         val ctx = FolderContext(
-            command = FolderCommand.CREATE_FOLDER,
+            command = FolderCommand.UPDATE_FOLDER,
             state = NotesState.NONE,
             workMode = NotesWorkMode.STUB,
             stubCase = NotesStubs.BAD_ID,
@@ -70,7 +75,7 @@ class FolderStubCreateTest {
     @Test
     fun badTitle() = runTest {
         val ctx = FolderContext(
-            command = FolderCommand.CREATE_FOLDER,
+            command = FolderCommand.UPDATE_FOLDER,
             state = NotesState.NONE,
             workMode = NotesWorkMode.STUB,
             stubCase = NotesStubs.BAD_FOLDER_NAME,
@@ -91,7 +96,7 @@ class FolderStubCreateTest {
     @Test
     fun databaseError() = runTest {
         val ctx = FolderContext(
-            command = FolderCommand.CREATE_FOLDER,
+            command = FolderCommand.UPDATE_FOLDER,
             state = NotesState.NONE,
             workMode = NotesWorkMode.STUB,
             stubCase = NotesStubs.DB_ERROR,
@@ -111,7 +116,7 @@ class FolderStubCreateTest {
     @Test
     fun badNoCase() = runTest {
         val ctx = FolderContext(
-            command = FolderCommand.CREATE_FOLDER,
+            command = FolderCommand.UPDATE_FOLDER,
             state = NotesState.NONE,
             workMode = NotesWorkMode.STUB,
             stubCase = NotesStubs.NONE,

@@ -21,6 +21,7 @@ class FolderProcessor(private val settings: NotesCorSettings = NotesCorSettings(
             folderOperation("Создание папки", FolderCommand.CREATE_FOLDER) {
                 folderStubs("Обработка стабов") {
                     stubFolderCreateSuccess("Имитация успешной обработки")
+                    stubFolderValidationBadId("Имитация ошибки валидации id")
                     stubFolderValidationBadName("Имитация ошибки валидации названия папки")
                     stubFolderDbError("Имитация ошибки работы с БД")
                     stubFolderNoCase("Ошибка: запрошенный стаб недопустим")
@@ -55,6 +56,7 @@ class FolderProcessor(private val settings: NotesCorSettings = NotesCorSettings(
                 folderStubs("Обработка стабов") {
                     stubFolderGetInfoSuccess("Имитация успешной обработки")
                     stubFolderValidationBadId("Имитация ошибки валидации id")
+                    stubFolderValidationBadName("Имитация ошибки валидации названия папки")
                     stubFolderDbError("Имитация ошибки работы с БД")
                     stubFolderNoCase("Ошибка: запрошенный стаб недопустим")
                 }

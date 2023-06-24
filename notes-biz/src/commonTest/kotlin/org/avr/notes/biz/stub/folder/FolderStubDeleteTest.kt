@@ -15,25 +15,24 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class FolderStubCreateTest {
+class FolderStubDeleteTest {
     private val processor = FolderProcessor()
 
     private val id = FolderId("8640c047-a6a1-4c5b-b3a8-204c809bdb1d")
     private val title = "Test Folder"
     private val createTime = Instant.parse("2023-02-01T10:00Z")
+    private val updateTime = Instant.parse("2023-02-01T10:00Z")
     private val version = 1
 
     @Test
-    fun create() = runTest {
+    fun delete() = runTest {
         val ctx = FolderContext(
-            command = FolderCommand.CREATE_FOLDER,
+            command = FolderCommand.DELETE_FOLDER,
             state = NotesState.NONE,
             workMode = NotesWorkMode.STUB,
             stubCase = NotesStubs.SUCCESS,
             folderRequest = Folder(
-                id = id,
-                parentFolderId = FolderId.NONE,
-                title = title
+                id = id
             )
         )
 
@@ -43,13 +42,14 @@ class FolderStubCreateTest {
         assertEquals(FolderId.NONE, ctx.folderResponse.parentFolderId)
         assertEquals(title, ctx.folderResponse.title)
         assertEquals(createTime, ctx.folderResponse.createTime)
+        assertEquals(updateTime, ctx.folderResponse.updateTime)
         assertEquals(version, ctx.folderResponse.version)
     }
 
     @Test
     fun badId() = runTest {
         val ctx = FolderContext(
-            command = FolderCommand.CREATE_FOLDER,
+            command = FolderCommand.DELETE_FOLDER,
             state = NotesState.NONE,
             workMode = NotesWorkMode.STUB,
             stubCase = NotesStubs.BAD_ID,
@@ -68,30 +68,9 @@ class FolderStubCreateTest {
     }
 
     @Test
-    fun badTitle() = runTest {
-        val ctx = FolderContext(
-            command = FolderCommand.CREATE_FOLDER,
-            state = NotesState.NONE,
-            workMode = NotesWorkMode.STUB,
-            stubCase = NotesStubs.BAD_FOLDER_NAME,
-            folderRequest = Folder(
-                id = id,
-                parentFolderId = FolderId.NONE,
-                title = ""
-            )
-        )
-
-        processor.exec(ctx)
-
-        assertEquals(Folder(), ctx.folderResponse)
-        assertEquals("title", ctx.errors.firstOrNull()?.field)
-        assertEquals("validation", ctx.errors.firstOrNull()?.group)
-    }
-
-    @Test
     fun databaseError() = runTest {
         val ctx = FolderContext(
-            command = FolderCommand.CREATE_FOLDER,
+            command = FolderCommand.DELETE_FOLDER,
             state = NotesState.NONE,
             workMode = NotesWorkMode.STUB,
             stubCase = NotesStubs.DB_ERROR,
@@ -111,7 +90,7 @@ class FolderStubCreateTest {
     @Test
     fun badNoCase() = runTest {
         val ctx = FolderContext(
-            command = FolderCommand.CREATE_FOLDER,
+            command = FolderCommand.DELETE_FOLDER,
             state = NotesState.NONE,
             workMode = NotesWorkMode.STUB,
             stubCase = NotesStubs.NONE,
