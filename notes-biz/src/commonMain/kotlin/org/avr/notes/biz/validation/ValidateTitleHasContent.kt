@@ -9,7 +9,7 @@ import org.avr.notes.cor.worker
 
 private const val TitleValidationRegexp = "\\p{L}"
 
-fun ICorChainDsl<FolderContext>.validateTitleHasContent(title: String) = worker {
+fun ICorChainDsl<FolderContext>.folderValidateTitleHasContent(title: String) = worker {
     this.title = title
     val regExp = Regex(TitleValidationRegexp)
     on { folderValidating.title.isNotEmpty() && ! folderValidating.title.contains(regExp) }
@@ -24,7 +24,7 @@ fun ICorChainDsl<FolderContext>.validateTitleHasContent(title: String) = worker 
     }
 }
 
-fun ICorChainDsl<NoteContext>.validateTitleHasContent(title: String) = worker {
+fun ICorChainDsl<NoteContext>.noteValidateTitleHasContent(title: String) = worker {
     this.title = title
     val regExp = Regex(TitleValidationRegexp)
     on { noteValidating.title.isNotEmpty() && ! noteValidating.title.contains(regExp) }

@@ -1,13 +1,10 @@
 package org.avr.notes.biz
 
-import org.avr.notes.biz.general.operation
-import org.avr.notes.biz.general.stubs
-import org.avr.notes.biz.validation.finishFolderValidation
-import org.avr.notes.biz.validation.validateTitleHasContent
-import org.avr.notes.biz.validation.validateTitleNotEmpty
-import org.avr.notes.biz.validation.validation
+import org.avr.notes.biz.general.folderOperation
+import org.avr.notes.biz.general.folderStubs
+import org.avr.notes.biz.validation.*
 import org.avr.notes.biz.workers.folder.*
-import org.avr.notes.biz.workers.initStatus
+import org.avr.notes.biz.workers.folderInitStatus
 import org.avr.notes.common.FolderContext
 import org.avr.notes.common.NotesCorSettings
 import org.avr.notes.common.models.folder.FolderCommand
@@ -19,78 +16,80 @@ class FolderProcessor(private val settings: NotesCorSettings = NotesCorSettings(
 
     companion object {
         private val BusinessChain = rootChain<FolderContext> {
-            initStatus("Инициализация статуса")
+            folderInitStatus("Инициализация статуса")
 
-            operation("Создание папки", FolderCommand.CREATE_FOLDER) {
-                stubs("Обработка стабов") {
+            folderOperation("Создание папки", FolderCommand.CREATE_FOLDER) {
+                folderStubs("Обработка стабов") {
                     stubFolderCreateSuccess("Имитация успешной обработки")
                     stubFolderValidationBadName("Имитация ошибки валидации названия папки")
                     stubFolderDbError("Имитация ошибки работы с БД")
                     stubFolderNoCase("Ошибка: запрошенный стаб недопустим")
                 }
-                validation {
+                folderValidation {
                     worker("Копируем поля в folderValidating") { folderValidating = folderRequest.deepCopy() }
                     worker("Очистка названия папки") { folderValidating.title = folderValidating.title.trim() }
-                    validateTitleNotEmpty("Проверка, что заголовок не пуст")
-                    validateTitleHasContent("Проверка символов")
+                    folderValidateIdNotEmpty("Проверка, что идентификатор задан")
+                    folderValidateIdProperFormat("Проверка сиволов в идентификаторе")
+                    folderValidateTitleNotEmpty("Проверка, что заголовок не пуст")
+                    folderValidateTitleHasContent("Проверка символов")
                     finishFolderValidation("Завершение проверок")
                 }
             }
-            operation("Обновление папки", FolderCommand.UPDATE_FOLDER) {
-                stubs("Обработка стабов") {
+            folderOperation("Обновление папки", FolderCommand.UPDATE_FOLDER) {
+                folderStubs("Обработка стабов") {
                     stubFolderUpdateSuccess("Имитация успешной обработки")
                     stubFolderValidationBadId("Имитация ошибки валидации id")
                     stubFolderValidationBadName("Имитация ошибки валидации названия папки")
                     stubFolderDbError("Имитация ошибки работы с БД")
                     stubFolderNoCase("Ошибка: запрошенный стаб недопустим")
                 }
-                validation {
+                folderValidation {
                     worker("Копируем поля в folderValidating") { folderValidating = folderRequest.deepCopy() }
                     worker("Очистка названия папки") { folderValidating.title = folderValidating.title.trim() }
-                    validateTitleNotEmpty("Проверка, что заголовок не пуст")
-                    validateTitleHasContent("Проверка символов")
+                    folderValidateTitleNotEmpty("Проверка, что заголовок не пуст")
+                    folderValidateTitleHasContent("Проверка символов")
                     finishFolderValidation("Завершение проверок")
                 }
             }
-            operation("Получение информации о папке", FolderCommand.GET_FOLDER_INFO) {
-                stubs("Обработка стабов") {
+            folderOperation("Получение информации о папке", FolderCommand.GET_FOLDER_INFO) {
+                folderStubs("Обработка стабов") {
                     stubFolderGetInfoSuccess("Имитация успешной обработки")
                     stubFolderValidationBadId("Имитация ошибки валидации id")
                     stubFolderDbError("Имитация ошибки работы с БД")
                     stubFolderNoCase("Ошибка: запрошенный стаб недопустим")
                 }
-                validation {
+                folderValidation {
                     worker("Копируем поля в folderValidating") { folderValidating = folderRequest.deepCopy() }
-                    validateTitleNotEmpty("Проверка, что заголовок не пуст")
-                    validateTitleHasContent("Проверка символов")
+                    folderValidateTitleNotEmpty("Проверка, что заголовок не пуст")
+                    folderValidateTitleHasContent("Проверка символов")
                     finishFolderValidation("Завершение проверок")
                 }
             }
-            operation("Получение дочерних элементов папки", FolderCommand.GET_FOLDER_CHILDREN) {
-                stubs("Обработка стабов") {
+            folderOperation("Получение дочерних элементов папки", FolderCommand.GET_FOLDER_CHILDREN) {
+                folderStubs("Обработка стабов") {
                     stubFolderGetChildrenSuccess("Имитация успешной обработки")
                     stubFolderValidationBadId("Имитация ошибки валидации id")
                     stubFolderDbError("Имитация ошибки работы с БД")
                     stubFolderNoCase("Ошибка: запрошенный стаб недопустим")
                 }
-                validation {
+                folderValidation {
                     worker("Копируем поля в folderValidating") { folderValidating = folderRequest.deepCopy() }
-                    validateTitleNotEmpty("Проверка, что заголовок не пуст")
-                    validateTitleHasContent("Проверка символов")
+                    folderValidateTitleNotEmpty("Проверка, что заголовок не пуст")
+                    folderValidateTitleHasContent("Проверка символов")
                     finishFolderValidation("Завершение проверок")
                 }
             }
-            operation("Удаление папки", FolderCommand.DELETE_FOLDER) {
-                stubs("Обработка стабов") {
+            folderOperation("Удаление папки", FolderCommand.DELETE_FOLDER) {
+                folderStubs("Обработка стабов") {
                     stubFolderDeleteSuccess("Имитация успешной обработки")
                     stubFolderValidationBadId("Имитация ошибки валидации id")
                     stubFolderDbError("Имитация ошибки работы с БД")
                     stubFolderNoCase("Ошибка: запрошенный стаб недопустим")
                 }
-                validation {
+                folderValidation {
                     worker("Копируем поля в folderValidating") { folderValidating = folderRequest.deepCopy() }
-                    validateTitleNotEmpty("Проверка, что заголовок не пуст")
-                    validateTitleHasContent("Проверка символов")
+                    folderValidateTitleNotEmpty("Проверка, что заголовок не пуст")
+                    folderValidateTitleHasContent("Проверка символов")
                     finishFolderValidation("Завершение проверок")
                 }
             }

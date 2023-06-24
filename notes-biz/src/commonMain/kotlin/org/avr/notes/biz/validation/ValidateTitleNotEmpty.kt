@@ -7,7 +7,7 @@ import org.avr.notes.common.helpers.fail
 import org.avr.notes.cor.ICorChainDsl
 import org.avr.notes.cor.worker
 
-fun ICorChainDsl<FolderContext>.validateTitleNotEmpty(title: String) = worker {
+fun ICorChainDsl<FolderContext>.folderValidateTitleNotEmpty(title: String) = worker {
     this.title = title
     on { folderValidating.title.isEmpty() }
     handle {
@@ -21,7 +21,7 @@ fun ICorChainDsl<FolderContext>.validateTitleNotEmpty(title: String) = worker {
     }
 }
 
-fun ICorChainDsl<NoteContext>.validateTitleNotEmpty(title: String) = worker {
+fun ICorChainDsl<NoteContext>.noteValidateTitleNotEmpty(title: String) = worker {
     this.title = title
     on { noteValidating.title.isEmpty() }
     handle {

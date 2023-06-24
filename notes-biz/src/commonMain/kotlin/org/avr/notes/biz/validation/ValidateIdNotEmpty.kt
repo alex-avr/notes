@@ -7,7 +7,7 @@ import org.avr.notes.common.helpers.fail
 import org.avr.notes.cor.ICorChainDsl
 import org.avr.notes.cor.worker
 
-fun ICorChainDsl<FolderContext>.validateIdNotEmpty(title: String) = worker {
+fun ICorChainDsl<FolderContext>.folderValidateIdNotEmpty(title: String) = worker {
     this.title = title
     on { folderValidating.id.asString().isEmpty() }
     handle {
@@ -21,7 +21,7 @@ fun ICorChainDsl<FolderContext>.validateIdNotEmpty(title: String) = worker {
     }
 }
 
-fun ICorChainDsl<NoteContext>.validateIdNotEmpty(title: String) = worker {
+fun ICorChainDsl<NoteContext>.noteValidateIdNotEmpty(title: String) = worker {
     this.title = title
     on { noteValidating.id.asString().isEmpty() }
     handle {

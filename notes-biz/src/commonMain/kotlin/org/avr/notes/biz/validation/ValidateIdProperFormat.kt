@@ -11,7 +11,7 @@ import org.avr.notes.cor.worker
 
 private const val IdValidationRegexp = "^[0-9a-zA-Z-]+$"
 
-fun ICorChainDsl<FolderContext>.validateIdProperFormat(title: String) = worker {
+fun ICorChainDsl<FolderContext>.folderValidateIdProperFormat(title: String) = worker {
     this.title = title
 
     val regExp = Regex(IdValidationRegexp)
@@ -30,7 +30,7 @@ fun ICorChainDsl<FolderContext>.validateIdProperFormat(title: String) = worker {
     }
 }
 
-fun ICorChainDsl<NoteContext>.validateIdProperFormat(title: String) = worker {
+fun ICorChainDsl<NoteContext>.noteValidateIdProperFormat(title: String) = worker {
     this.title = title
 
     val regExp = Regex(IdValidationRegexp)

@@ -1,10 +1,10 @@
 package org.avr.notes.biz
 
-import org.avr.notes.biz.general.operation
-import org.avr.notes.biz.general.stubs
+import org.avr.notes.biz.general.noteOperation
+import org.avr.notes.biz.general.noteStubs
 import org.avr.notes.biz.validation.*
-import org.avr.notes.biz.workers.initStatus
 import org.avr.notes.biz.workers.note.*
+import org.avr.notes.biz.workers.noteInitStatus
 import org.avr.notes.common.NoteContext
 import org.avr.notes.common.NotesCorSettings
 import org.avr.notes.common.models.note.NoteCommand
@@ -16,43 +16,96 @@ class NoteProcessor(private val settings: NotesCorSettings = NotesCorSettings())
 
     companion object {
         private val BusinessChain = rootChain<NoteContext> {
-            initStatus("Инициализация статуса")
+            noteInitStatus("Инициализация статуса")
 
-            operation("Создание заметки", NoteCommand.CREATE_NOTE) {
-                stubs("Обработка стабов") {
+            noteOperation("Создание заметки", NoteCommand.CREATE_NOTE) {
+                noteStubs("Обработка стабов") {
                     stubNoteCreateSuccess("Имитация успешной обработки")
                     stubNoteValidationBadId("Имитация ошибки валидации итдентификатора заметки")
                     stubNoteValidationBadTitle("Имитация ошибки валидации заголовка заметки")
                     stubNoteDbError("Имитация ошибки работы с БД")
                     stubNoteNoCase("Ошибка: запрошенный стаб недопустим")
                 }
-                validation {
+                noteValidation {
                     worker("Копируем поля в noteValidating") { noteValidating = noteRequest.deepCopy() }
                     worker("Очистка названия заметки") { noteValidating.title = noteValidating.title.trim() }
-                    validateIdNotEmpty("Проверка, что идентификатор заметки не пуст")
-                    validateIdProperFormat("Проверка формата идентификатора")
+                    noteValidateIdNotEmpty("Проверка, что идентификатор заметки не пуст")
+                    noteValidateIdProperFormat("Проверка формата идентификатора")
                     validateParentFolderIdNotEmpty("Проверка, что идентификатор родительской папки не пуст")
-                    validateTitleNotEmpty("Проверка, что название заметки не пусто")
-                    validateTitleHasContent("Проверка символов")
+                    noteValidateTitleNotEmpty("Проверка, что название заметки не пусто")
+                    noteValidateTitleHasContent("Проверка символов")
 
                     finishNoteValidation("Завершение проверок")
                 }
             }
 
-            operation("Чтение заметки", NoteCommand.READ_NOTE) {
-                stubs("Обработка стабов") {
+            noteOperation("Чтение заметки", NoteCommand.READ_NOTE) {
+                noteStubs("Обработка стабов") {
                     stubNoteGetSuccess("Имитация успешной обработки")
                     stubNoteValidationBadId("Имитация ошибки валидации итдентификатора заметки")
                     stubNoteDbError("Имитация ошибки работы с БД")
                     stubNoteNoCase("Ошибка: запрошенный стаб недопустим")
                 }
-                validation {
-                    validateIdNotEmpty("Проверка, что идентификатор заметки не пуст")
+                noteValidation {
+                    noteValidateIdNotEmpty("Проверка, что идентификатор заметки не пуст")
+                    noteValidateIdProperFormat("Проверка формата идентификатора")
                     validateParentFolderIdNotEmpty("Проверка, что идентификатор родительской папки не пуст")
-                    validateTitleNotEmpty("Проверка, что название заметки не пусто")
-                    validateTitleHasContent("Проверка символов")
+                    noteValidateTitleNotEmpty("Проверка, что название заметки не пусто")
+                    noteValidateTitleHasContent("Проверка символов")
 
                     finishNoteValidation("Завершение проверок")
+                }
+            }
+
+            noteOperation("Обновление заметки", NoteCommand.UPDATE_NOTE) {
+                noteStubs("Обработка стабов") {
+                    stubNoteUpdateSuccess("Имитация успешной обработки")
+                    stubNoteValidationBadId("Имитация ошибки валидации итдентификатора заметки")
+                    stubNoteValidationBadTitle("Имитация ошибки валидации заголовка заметки")
+                    stubNoteDbError("Имитация ошибки работы с БД")
+                    stubNoteNoCase("Ошибка: запрошенный стаб недопустим")
+                }
+                noteValidation {
+                    worker("Копируем поля в noteValidating") { noteValidating = noteRequest.deepCopy() }
+                    worker("Очистка названия заметки") { noteValidating.title = noteValidating.title.trim() }
+                    noteValidateIdNotEmpty("Проверка, что идентификатор заметки не пуст")
+                    noteValidateIdProperFormat("Проверка формата идентификатора")
+                    validateParentFolderIdNotEmpty("Проверка, что идентификатор родительской папки не пуст")
+                    noteValidateTitleNotEmpty("Проверка, что название заметки не пусто")
+                    noteValidateTitleHasContent("Проверка символов")
+
+                    finishNoteValidation("Завершение проверок")
+                }
+            }
+
+            noteOperation("Удаление заметки", NoteCommand.DELETE_NOTE) {
+                noteStubs("Обработка стабов") {
+                    stubNoteDeleteSuccess("Имитация успешной обработки")
+                    stubNoteValidationBadId("Имитация ошибки валидации идентификатора заметки")
+                    stubNoteDbError("Имитация ошибки работы с БД")
+                    stubNoteNoCase("Ошибка: запрошенный стаб недопустим")
+                }
+                noteValidation {
+                    noteValidateIdNotEmpty("Проверка, что идентификатор заметки не пуст")
+                    noteValidateIdProperFormat("Проверка формата идентификатора")
+
+                    finishNoteValidation("Завершение проверок")
+                }
+            }
+
+            noteOperation("Поиск заметок", NoteCommand.SEARCH_NOTES) {
+                noteStubs("Обработка стабов") {
+                    stubSearchSuccess("Имитация успешной обработки")
+                    stubNoteValidationBadId("Имитация ошибки валидации идентификатора заметки")
+                    stubNoteValidationBadSearchFilter("Имитация ошибки - не указана строка фильтра для поиска заметок")
+                    stubNoteDbError("Имитация ошибки работы с БД")
+                    stubNoteNoCase("Ошибка: запрошенный стаб недопустим")
+                }
+                noteValidation {
+                    noteValidateIdNotEmpty("Проверка, что идентификатор заметки не пуст")
+                    noteValidateIdProperFormat("Проверка формата идентификатора")
+
+                    finishNoteFilterValidation("Завершение проверок")
                 }
             }
         }.build()
