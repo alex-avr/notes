@@ -8,6 +8,7 @@ import org.avr.notes.biz.workers.folderInitStatus
 import org.avr.notes.common.FolderContext
 import org.avr.notes.common.NotesCorSettings
 import org.avr.notes.common.models.folder.FolderCommand
+import org.avr.notes.common.models.folder.FolderId
 import org.avr.notes.cor.rootChain
 import org.avr.notes.cor.worker
 
@@ -28,6 +29,7 @@ class FolderProcessor(private val settings: NotesCorSettings = NotesCorSettings(
                 }
                 folderValidation {
                     worker("Копируем поля в folderValidating") { folderValidating = folderRequest.deepCopy() }
+                    worker("Очистка id") { folderValidating.id = FolderId(folderValidating.id.asString().trim()) }
                     worker("Очистка названия папки") { folderValidating.title = folderValidating.title.trim() }
                     folderValidateIdNotEmpty("Проверка, что идентификатор задан")
                     folderValidateIdProperFormat("Проверка сиволов в идентификаторе")
@@ -46,7 +48,10 @@ class FolderProcessor(private val settings: NotesCorSettings = NotesCorSettings(
                 }
                 folderValidation {
                     worker("Копируем поля в folderValidating") { folderValidating = folderRequest.deepCopy() }
+                    worker("Очистка id") { folderValidating.id = FolderId(folderValidating.id.asString().trim()) }
                     worker("Очистка названия папки") { folderValidating.title = folderValidating.title.trim() }
+                    folderValidateIdNotEmpty("Проверка, что идентификатор задан")
+                    folderValidateIdProperFormat("Проверка сиволов в идентификаторе")
                     folderValidateTitleNotEmpty("Проверка, что заголовок не пуст")
                     folderValidateTitleHasContent("Проверка символов")
                     finishFolderValidation("Завершение проверок")
@@ -56,12 +61,16 @@ class FolderProcessor(private val settings: NotesCorSettings = NotesCorSettings(
                 folderStubs("Обработка стабов") {
                     stubFolderGetInfoSuccess("Имитация успешной обработки")
                     stubFolderValidationBadId("Имитация ошибки валидации id")
+                    folderValidateIdProperFormat("Проверка сиволов в идентификаторе")
                     stubFolderValidationBadName("Имитация ошибки валидации названия папки")
                     stubFolderDbError("Имитация ошибки работы с БД")
                     stubFolderNoCase("Ошибка: запрошенный стаб недопустим")
                 }
                 folderValidation {
                     worker("Копируем поля в folderValidating") { folderValidating = folderRequest.deepCopy() }
+                    worker("Очистка id") { folderValidating.id = FolderId(folderValidating.id.asString().trim()) }
+                    folderValidateIdNotEmpty("Проверка, что идентификатор задан")
+                    folderValidateIdProperFormat("Проверка сиволов в идентификаторе")
                     folderValidateTitleNotEmpty("Проверка, что заголовок не пуст")
                     folderValidateTitleHasContent("Проверка символов")
                     finishFolderValidation("Завершение проверок")
@@ -76,6 +85,9 @@ class FolderProcessor(private val settings: NotesCorSettings = NotesCorSettings(
                 }
                 folderValidation {
                     worker("Копируем поля в folderValidating") { folderValidating = folderRequest.deepCopy() }
+                    worker("Очистка id") { folderValidating.id = FolderId(folderValidating.id.asString().trim()) }
+                    folderValidateIdNotEmpty("Проверка, что идентификатор задан")
+                    folderValidateIdProperFormat("Проверка сиволов в идентификаторе")
                     folderValidateTitleNotEmpty("Проверка, что заголовок не пуст")
                     folderValidateTitleHasContent("Проверка символов")
                     finishFolderValidation("Завершение проверок")
@@ -90,6 +102,9 @@ class FolderProcessor(private val settings: NotesCorSettings = NotesCorSettings(
                 }
                 folderValidation {
                     worker("Копируем поля в folderValidating") { folderValidating = folderRequest.deepCopy() }
+                    worker("Очистка id") { folderValidating.id = FolderId(folderValidating.id.asString().trim()) }
+                    folderValidateIdNotEmpty("Проверка, что идентификатор указан")
+                    folderValidateIdProperFormat("Проверка сиволов в идентификаторе")
                     folderValidateTitleNotEmpty("Проверка, что заголовок не пуст")
                     folderValidateTitleHasContent("Проверка символов")
                     finishFolderValidation("Завершение проверок")

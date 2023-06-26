@@ -8,6 +8,7 @@ import org.avr.notes.biz.workers.noteInitStatus
 import org.avr.notes.common.NoteContext
 import org.avr.notes.common.NotesCorSettings
 import org.avr.notes.common.models.note.NoteCommand
+import org.avr.notes.common.models.note.NoteId
 import org.avr.notes.cor.rootChain
 import org.avr.notes.cor.worker
 
@@ -28,6 +29,7 @@ class NoteProcessor(private val settings: NotesCorSettings = NotesCorSettings())
                 }
                 noteValidation {
                     worker("Копируем поля в noteValidating") { noteValidating = noteRequest.deepCopy() }
+                    worker("Очистка id") { noteValidating.id = NoteId(noteValidating.id.asString().trim()) }
                     worker("Очистка названия заметки") { noteValidating.title = noteValidating.title.trim() }
                     noteValidateIdNotEmpty("Проверка, что идентификатор заметки не пуст")
                     noteValidateIdProperFormat("Проверка формата идентификатора")
@@ -48,6 +50,8 @@ class NoteProcessor(private val settings: NotesCorSettings = NotesCorSettings())
                     stubNoteNoCase("Ошибка: запрошенный стаб недопустим")
                 }
                 noteValidation {
+                    worker("Копируем поля в noteValidating") { noteValidating = noteRequest.deepCopy() }
+                    worker("Очистка id") { noteValidating.id = NoteId(noteValidating.id.asString().trim()) }
                     noteValidateIdNotEmpty("Проверка, что идентификатор заметки не пуст")
                     noteValidateIdProperFormat("Проверка формата идентификатора")
                     validateParentFolderIdNotEmpty("Проверка, что идентификатор родительской папки не пуст")
@@ -68,6 +72,8 @@ class NoteProcessor(private val settings: NotesCorSettings = NotesCorSettings())
                 }
                 noteValidation {
                     worker("Копируем поля в noteValidating") { noteValidating = noteRequest.deepCopy() }
+                    worker("Копируем поля в noteValidating") { noteValidating = noteRequest.deepCopy() }
+                    worker("Очистка id") { noteValidating.id = NoteId(noteValidating.id.asString().trim()) }
                     worker("Очистка названия заметки") { noteValidating.title = noteValidating.title.trim() }
                     noteValidateIdNotEmpty("Проверка, что идентификатор заметки не пуст")
                     noteValidateIdProperFormat("Проверка формата идентификатора")
@@ -87,6 +93,8 @@ class NoteProcessor(private val settings: NotesCorSettings = NotesCorSettings())
                     stubNoteNoCase("Ошибка: запрошенный стаб недопустим")
                 }
                 noteValidation {
+                    worker("Копируем поля в noteValidating") { noteValidating = noteRequest.deepCopy() }
+                    worker("Очистка id") { noteValidating.id = NoteId(noteValidating.id.asString().trim()) }
                     noteValidateIdNotEmpty("Проверка, что идентификатор заметки не пуст")
                     noteValidateIdProperFormat("Проверка формата идентификатора")
 
@@ -103,6 +111,8 @@ class NoteProcessor(private val settings: NotesCorSettings = NotesCorSettings())
                     stubNoteNoCase("Ошибка: запрошенный стаб недопустим")
                 }
                 noteValidation {
+                    worker("Копируем поля в noteValidating") { noteValidating = noteRequest.deepCopy() }
+                    worker("Очистка id") { noteValidating.id = NoteId(noteValidating.id.asString().trim()) }
                     noteValidateIdNotEmpty("Проверка, что идентификатор заметки не пуст")
                     noteValidateIdProperFormat("Проверка формата идентификатора")
 
