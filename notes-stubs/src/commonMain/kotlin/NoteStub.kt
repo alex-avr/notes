@@ -29,4 +29,6 @@ object NoteStub {
     fun get() = update()
 
     fun searchResults() = mutableListOf(get())
+
+    fun prepareResult(block: Note.() -> Unit): Note = get().apply(block)
 }

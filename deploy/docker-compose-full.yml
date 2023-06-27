@@ -1,0 +1,74 @@
+# Полная конфигурация для приложэения
+# app: Notes
+# PostgreSQL
+# OpenSearch
+# OpenSearch Dashboards
+# Fluent Bit
+
+version: '3'
+services:
+  app:
+    image: "notes-app-ktor:0.0.1"
+    container_name: app-ktor
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+#    environment:
+#      SQL_URL: jdbc:postgresql://psql:5432/marketplace
+#    depends_on:
+#      psql:
+#        condition: service_healthy
+
+  fluent-bit:
+    container_name: fluent-bit
+    image: fluent/fluent-bit
+    ports:
+      # необходимо открыть порты, которые используются плагином forward
+      - "24224:24224"
+      - "24224:24224/udp"
+      - "2020:2020"
+    environment:
+      - opensearch_host=opensearch
+      - opensearch_user=admin
+      - opensearch_pass=admin
+    volumes:
+      - ./volumes/fluent-bit-etc/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
+      - ./volumes/fluent-bit-etc/parsers.conf:/fluent-bit/etc/parsers.conf
+
+  opensearch:
+    container_name: opensearch
+    image: opensearchproject/opensearch:latest
+    environment:
+      - discovery.type=single-node
+      - http.port=9200
+      - bootstrap.memory_lock=true
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - '9200:9200'
+      - '9600:9600'
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+
+  dashboards:
+    image: opensearchproject/opensearch-dashboards:latest
+    container_name: opensearch-dashboards
+    ports:
+      - "5601:5601"
+    expose:
+      - "5601"
+    environment:
+      OPENSEARCH_HOSTS: '["https://opensearch:9200"]'
+    depends_on:
+      - opensearch
+
+volumes:
+  opensearch-data:
+#  postgres_data:

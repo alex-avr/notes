@@ -1,0 +1,191 @@
+openapi: 3.0.4
+info:
+  title: Notes log models
+  description: Log models for logging services of Notes application
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+paths: {}
+
+components:
+  schemas:
+    CommonLogModel:
+      title: Общая модель лога
+      description: Общая модель лога
+      type: object
+      properties:
+        messageTime:
+          type: string
+          title: время генерации сообщения
+        logId:
+          type: string
+          title: идентификатор лога
+        source:
+          type: string
+          title: источник сообщения
+        objectKind:
+          type: string
+          title: вид объекта для лога - папка или заметка
+          enum:
+            - folder
+            - note
+        folderData:
+          $ref: '#/components/schemas/FolderLogModel'
+        noteData:
+          $ref: '#/components/schemas/NoteLogModel'
+        errors:
+          type: array
+          title: список ошибок
+          items:
+            $ref: '#/components/schemas/ErrorLogModel'
+
+    FolderLogModel:
+      title: Модель лога для обработки запросов о папках
+      type: object
+      properties:
+        requestId:
+          type: string
+          title: идентификатор запроса
+        operation:
+          type: string
+          title: вид запроса
+          enum:
+            - create
+            - update
+            - delete
+            - getInfo
+            - getChildren
+        requestFolder:
+          $ref: '#/components/schemas/FolderLog'
+        responseFolder:
+          $ref: '#/components/schemas/FolderLog'
+        responseChildrenLog:
+          type: array
+          title: массив с данными о дочерних оюъектах папки
+          items:
+            $ref: '#/components/schemas/FolderChildInfo'
+
+    NoteLogModel:
+      title: Модель лога для обработки запросов о заметках
+      type: object
+      properties:
+        requestId:
+          type: string
+          title: идентификатор запроса
+        operation:
+          type: string
+          title: вид запроса
+          enum:
+            - create
+            - read
+            - update
+            - delete
+            - search
+        requestNote:
+          $ref: '#/components/schemas/NoteLog'
+        requestFilter:
+          $ref: '#/components/schemas/NoteFilterLog'
+        responseNote:
+          $ref: '#/components/schemas/NoteLog'
+        responseNoteList:
+          type: array
+          title: массив с данными о найденных заметках
+          items:
+            $ref: '#/components/schemas/NoteLog'
+
+    ErrorLogModel:
+      title: Модель лога для ошибки
+      type: object
+      properties:
+        message:
+          type: string
+          title: текст сообщения об ошибке
+        field:
+          type: string
+          title: поле, в котором возникла ошибка
+        code:
+          type: string
+          title: код ошибки
+        level:
+          type: string
+          title: уровень критичности ошибки
+
+    FolderLog:
+      title: Модель лога для папки
+      type: object
+      properties:
+        id:
+          type: string
+          title: идентификатор заметки папки
+        parentFolderId:
+          type: string
+          title: идентификатор родительской папки
+        title:
+          type: string
+          title: название папки
+        version:
+          type: string
+          title: номер версии
+        createTime:
+          type: string
+          title: дата создания папки
+        updateTime:
+          type: string
+          title: дата изменения папки
+
+    NoteLog:
+      title: Модель лога для заметки
+      type: object
+      properties:
+        id:
+          type: string
+          title: идентификатор заметки
+        parentFolderId:
+          type: string
+          title: идентификатор родительской папки
+        title:
+          type: string
+          title: заголовок заметки
+        body:
+          type: string
+          title: тело заметки
+        version:
+          type: string
+          title: номер версии
+        createTime:
+          type: string
+          title: дата создания заметки
+        updateTime:
+          type: string
+          title: дата изменения заметки
+
+    FolderChildInfo:
+      type: object
+      title: Дочерний объект папки - подпапка или заметка
+      properties:
+        id:
+          type: string
+          title: идентификатор объекта
+        parentFolderId:
+          type: string
+          title: идентификатор родительской папки
+        title:
+          type: string
+          title: название дочернего объекта
+        version:
+          type: string
+          title: номер версии
+        createTime:
+          type: string
+          title: дата создания заметки
+        updateTime:
+          type: string
+          title: дата изменения заметки
+
+    NoteFilterLog:
+      title: Модель лога фильтра для поиска заметок
+      properties:
+        searchString:
+          type: string
+          title: Строка фильтра для поиска заметок
