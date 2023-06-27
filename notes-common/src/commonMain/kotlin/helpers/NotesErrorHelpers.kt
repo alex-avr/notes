@@ -70,6 +70,12 @@ val errorNotFound = NotesError(
     code = "not-found"
 )
 
+val errorAlreadyExists = NotesError(
+    field = "id",
+    message = "Already Exists",
+    code = "already-exists"
+)
+
 val errorEmptyId = NotesError(
     field = "id",
     message = "Id must not be null or blank"
