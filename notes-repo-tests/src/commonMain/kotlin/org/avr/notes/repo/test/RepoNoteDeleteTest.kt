@@ -12,7 +12,7 @@ import kotlin.test.assertEquals
 abstract class RepoNoteDeleteTest {
     abstract val repo: INoteRepository
 
-    protected open val deleteSucceededObject = RepoFolderDeleteTest.initObjects.first() as Note
+    protected open val deleteSucceededObject = initObjects.first() as Note
 
     @Test
     fun deleteSuccess() = runRepoTest {

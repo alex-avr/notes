@@ -13,7 +13,7 @@ import kotlin.test.assertEquals
 abstract class RepoFolderGetInfoTest {
     abstract val repo: IFolderRepository
 
-    protected open val getInfoSucceededObject = RepoFolderDeleteTest.initObjects[0] as Folder
+    protected open val getInfoSucceededObject = initObjects[0] as Folder
 
     @Test
     fun getInfoSuccess() = runRepoTest {

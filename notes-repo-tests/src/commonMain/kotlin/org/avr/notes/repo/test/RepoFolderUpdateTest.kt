@@ -31,8 +31,8 @@ abstract class RepoFolderUpdateTest {
         val result = repo.updateFolder(DbFolderRequest(reqUpdateSucc))
 
         assertEquals(true, result.isSuccess)
-        assertEquals(updateSucceededObject.id, result.data?.id)
-        assertEquals(updateSucceededObject.title, result.data?.title)
+        assertEquals(reqUpdateSucc.id, result.data?.id)
+        assertEquals(reqUpdateSucc.title, result.data?.title)
         assertEquals(emptyList(), result.errors)
     }
 

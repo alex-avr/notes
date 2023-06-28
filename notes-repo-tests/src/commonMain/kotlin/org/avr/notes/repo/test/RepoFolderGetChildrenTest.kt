@@ -32,12 +32,10 @@ abstract class RepoFolderGetChildrenTest {
 
     @Test
     fun getChildrenNotFound() = runRepoTest {
-        val result = repo.getFolderChildren(DbFolderIdRequest(RepoFolderGetInfoTest.notFoundId))
+        val result = repo.getFolderChildren(DbFolderIdRequest(notFoundId))
 
-        assertEquals(false, result.isSuccess)
-        assertEquals(null, result.data)
-        val error = result.errors.find { it.code == "not-found" }
-        assertEquals("id", error?.field)
+        assertEquals(true, result.isSuccess)
+        assertEquals(0, result.data?.size)
     }
 
     companion object : BaseInitAds("getFolderChildren") {

@@ -31,8 +31,8 @@ abstract class RepoNoteUpdateTest {
         val result = repo.updateNote(DbNoteRequest(reqUpdateSucc))
 
         assertEquals(true, result.isSuccess)
-        assertEquals(updateSucceededObject.id, result.data?.id)
-        assertEquals(updateSucceededObject.title, result.data?.title)
+        assertEquals(reqUpdateSucc.id, result.data?.id)
+        assertEquals(reqUpdateSucc.title, result.data?.title)
         assertEquals(emptyList(), result.errors)
     }
 
