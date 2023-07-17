@@ -7,6 +7,25 @@
 
 version: '3'
 services:
+  psql:
+    image: postgres
+    container_name: postgresql
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+    environment:
+      POSTGRES_PASSWORD: notes-pass
+      POSTGRES_USER: postgres
+      POSTGRES_DB: notes
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   app:
     image: "notes-app-ktor:0.0.1"
     container_name: app-ktor
@@ -14,11 +33,11 @@ services:
       - "8080:8080"
     expose:
       - "8080"
-#    environment:
-#      SQL_URL: jdbc:postgresql://psql:5432/marketplace
-#    depends_on:
-#      psql:
-#        condition: service_healthy
+    environment:
+      SQL_URL: jdbc:postgresql://psql:5432/notes
+    depends_on:
+      psql:
+        condition: service_healthy
 
   fluent-bit:
     container_name: fluent-bit
@@ -71,4 +90,4 @@ services:
 
 volumes:
   opensearch-data:
-#  postgres_data:
+  postgres_data:
