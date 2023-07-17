@@ -5,6 +5,7 @@ val ktorVersion: String by project
 val logbackVersion: String by project
 val serializationVersion: String by project
 val dockerJavaVersion: String by project
+val datetimeVersion: String by project
 
 fun ktorServer(module: String, version: String? = this@Build_gradle.ktorVersion): Any =
     "io.ktor:ktor-server-$module:$version"
@@ -25,6 +26,10 @@ dependencies {
 
 application {
     mainClass.set("org.avr.notes.app.ApplicationJvmKt")
+}
+
+jib {
+    container { mainClass = application.mainClass.get() }
 }
 
 ktor {
@@ -50,11 +55,14 @@ kotlin {
                 implementation(project(":notes-mappers-log1"))
                 implementation(project(":notes-stubs"))
                 implementation(project(":notes-biz"))
-                //implementation(project(":notes-repo-in-memory"))
-                //implementation(project(":notes-repo-stubs"))
+                implementation(project(":notes-repo-in-memory"))
+                implementation(project(":notes-repo-stubs"))
                 implementation(project(":notes-api-v1-jackson"))
                 implementation(project(":notes-mappers-v1"))
                 implementation(project(":notes-lib-logging-common"))
+
+                implementation(project(":notes-repo-in-memory"))
+                implementation(project(":notes-repo-stubs"))
 
                 implementation(ktorServer("core")) // "io.ktor:ktor-server-core:$ktorVersion"
                 implementation(ktorServer("cio")) // "io.ktor:ktor-server-cio:$ktorVersion"
@@ -98,11 +106,13 @@ kotlin {
                 // transport models
                 implementation(project(":notes-common"))
                 implementation(project(":notes-api-v1-jackson"))
-                //implementation(project(":ok-marketplace-api-v2-kmp"))
                 implementation(project(":notes-mappers-v1"))
 
                 // Stubs
                 implementation(project(":notes-stubs"))
+
+                // Repo
+                implementation(project(":notes-repo-postgresql"))
 
                 implementation("com.sndyuk:logback-more-appenders:1.8.8")
                 implementation("org.fluentd:fluent-logger:0.3.4")

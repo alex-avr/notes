@@ -13,4 +13,29 @@ interface IFolderRepository {
     suspend fun updateFolder(request: DbFolderRequest): DbFolderResponse
 
     suspend fun deleteFolder(request: DbFolderIdRequest): DbFolderResponse
+
+    companion object {
+        val NONE = object : IFolderRepository {
+            override suspend fun createFolder(request: DbFolderRequest): DbFolderResponse {
+                TODO("Not yet implemented")
+            }
+
+            override suspend fun getFolderInfo(request: DbFolderIdRequest): DbFolderResponse {
+                TODO("Not yet implemented")
+            }
+
+            override suspend fun getFolderChildren(request: DbFolderIdRequest): DbFolderChildrenResponse {
+                TODO("Not yet implemented")
+            }
+
+            override suspend fun updateFolder(request: DbFolderRequest): DbFolderResponse {
+                TODO("Not yet implemented")
+            }
+
+            override suspend fun deleteFolder(request: DbFolderIdRequest): DbFolderResponse {
+                TODO("Not yet implemented")
+            }
+
+        }
+    }
 }

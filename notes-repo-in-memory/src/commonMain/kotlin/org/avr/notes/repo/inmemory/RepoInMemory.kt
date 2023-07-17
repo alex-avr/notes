@@ -9,6 +9,7 @@ import org.avr.notes.common.models.IFolderChild
 import org.avr.notes.common.models.Note
 import org.avr.notes.common.models.folder.FolderId
 import org.avr.notes.common.models.note.NoteId
+import org.avr.notes.common.repo.IRepositoryFactory
 import org.avr.notes.common.repo.folder.*
 import org.avr.notes.common.repo.folder.DbFolderResponse.Companion.errorFolderAlreadyExists
 import org.avr.notes.common.repo.folder.DbFolderResponse.Companion.errorFolderEmptyId
@@ -28,7 +29,7 @@ class RepoInMemory(
     initObjects: List<IFolderChild> = emptyList(),
     ttl: Duration = cacheTimeToLive,
     val randomUuid: () -> String = { uuid4().toString() }
-) : IFolderRepository, INoteRepository {
+) : IFolderRepository, INoteRepository, IRepositoryFactory {
     private val cache = Cache.Builder<String, IEntity>()
         .expireAfterWrite(ttl)
         .build()
@@ -221,4 +222,9 @@ class RepoInMemory(
 
         cache.put(entity.id, entity)
     }
+
+    override val folderRepository: IFolderRepository
+        get() = this
+    override val noteRepository: INoteRepository
+        get() = this
 }
