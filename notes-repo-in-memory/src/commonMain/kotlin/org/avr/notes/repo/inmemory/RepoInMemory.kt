@@ -206,7 +206,7 @@ class RepoInMemory(
                     entry.value is NoteEntity
                 }
                 .map { entry -> entry.value as NoteEntity }
-                .filter { noteEntity -> noteEntity.title?.contains(request.titleFilter) ?: false }
+                .filter { noteEntity -> noteEntity.title?.contains(request.searchFilter) ?: false }
                 .map { it.toInternal() }
                 .toList()
         }

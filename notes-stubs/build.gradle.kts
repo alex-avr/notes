@@ -4,14 +4,14 @@ plugins {
 
 kotlin {
     jvm {}
+    linuxX64 {}
+    macosX64 {}
 
     sourceSets {
         val commonMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-common"))
-
                 implementation(project(":notes-common"))
-                implementation(project(":notes-api-v1-jackson"))
             }
         }
         val commonTest by getting {
@@ -22,6 +22,7 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
+                implementation(project(":notes-api-v1-jackson"))
                 implementation(kotlin("stdlib"))
             }
         }

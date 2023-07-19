@@ -12,6 +12,9 @@ import org.jetbrains.exposed.sql.javatime.timestamp
 import org.jetbrains.exposed.sql.statements.InsertStatement
 import org.jetbrains.exposed.sql.statements.UpdateBuilder
 import java.util.*
+import java.util.UUID.fromString
+
+fun FolderId.toUuid(): UUID = fromString(asString())
 
 object FolderTable : IdTable<UUID>("folders") {
     override val id = uuid("id").entityId()

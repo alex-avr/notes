@@ -14,6 +14,8 @@ import org.jetbrains.exposed.sql.statements.InsertStatement
 import org.jetbrains.exposed.sql.statements.UpdateBuilder
 import java.util.*
 
+fun NoteId.toUuid(): UUID = UUID.fromString(asString())
+
 object NoteTable : IdTable<UUID>("notes") {
     override val id = uuid("id").entityId()
     val parentFolderId = uuid("parent_id").nullable()
