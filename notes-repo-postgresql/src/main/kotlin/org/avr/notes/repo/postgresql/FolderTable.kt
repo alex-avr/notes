@@ -28,7 +28,7 @@ object FolderTable : IdTable<UUID>("folders") {
 
     fun from(res : InsertStatement<Number>) = Folder(
         id = FolderId(res[id].toString()),
-        parentFolderId = FolderId(res[parentFolderId].toString()),
+        parentFolderId = if (res[parentFolderId]?.toString()?.isNotBlank() == true) res[parentFolderId]?.toString()?.let { FolderId(it) } else FolderId.NONE,
         title = res[title],
         createTime = res[createTime].toKotlinInstant(),
         updateTime = res[updateTime]?.toKotlinInstant() ?: Instant.NONE,
@@ -37,7 +37,7 @@ object FolderTable : IdTable<UUID>("folders") {
 
     fun from(res : ResultRow) = Folder(
         id = FolderId(res[id].toString()),
-        parentFolderId = FolderId(res[parentFolderId].toString()),
+        parentFolderId = if (res[parentFolderId]?.toString()?.isNotBlank() == true) res[parentFolderId]?.toString()?.let { FolderId(it) } else FolderId.NONE,
         title = res[title],
         createTime = res[createTime].toKotlinInstant(),
         updateTime = res[updateTime]?.toKotlinInstant() ?: Instant.NONE,
@@ -46,7 +46,7 @@ object FolderTable : IdTable<UUID>("folders") {
 
     fun to(it: UpdateBuilder<*>, folder: Folder) {
         it[id] = UUID.fromString(folder.id.asString())
-        it[parentFolderId] = if (folder.parentFolderId?.asString() != null) UUID.fromString(folder.parentFolderId?.asString()) else null
+        it[parentFolderId] = if (folder.parentFolderId?.asString()?.isNotBlank() == true) UUID.fromString(folder.parentFolderId?.asString()) else null
         it[title] = folder.title
         it[createTime] = folder.createTime.toJavaInstant()
         it[updateTime] = folder.updateTime.takeIf { it != Instant.NONE }?.toJavaInstant()

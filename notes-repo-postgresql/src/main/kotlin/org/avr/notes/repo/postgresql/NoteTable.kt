@@ -20,7 +20,7 @@ object NoteTable : IdTable<UUID>("notes") {
     override val id = uuid("id").entityId()
     val parentFolderId = uuid("parent_id").nullable()
     val title = varchar("title", 128)
-    val body = text("title")
+    val body = text("body")
     val createTime = timestamp("created_time")
     val updateTime = timestamp("updated_time").nullable()
     val version = ushort("version")

@@ -30,7 +30,7 @@ abstract class RepoFolderCreateTest {
 
         assertEquals(true, result.isSuccess)
         assertEquals(expected.id, result.data?.id)
-        assertEquals(expected.parentFolderId, result.data?.parentFolderId)
+        assertEquals(FolderId.NONE, result.data?.parentFolderId)
         assertEquals(expected.title, result.data?.title)
         assertEquals(expected.createTime, result.data?.createTime)
         assertEquals(expected.updateTime, result.data?.updateTime)
